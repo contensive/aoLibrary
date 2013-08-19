@@ -69,9 +69,9 @@ Private Type FolderType
 End Type
 Private folders() As FolderType
 Private folderCnt As Long
-Private FolderIdIndex As FastIndex2.FastIndexClass
-Private FolderNameIndex As FastIndex2.FastIndexClass
-Private FolderPathIndex As FastIndex2.FastIndexClass
+Private FolderIdIndex As FastIndex5.FastIndex5Class
+Private FolderNameIndex As FastIndex5.FastIndex5Class
+Private FolderPathIndex As FastIndex5.FastIndex5Class
 '
 Private FolderSelect As String
 '
@@ -470,7 +470,7 @@ Private Function GetForm(topFolderPath As String, AllowGroupAdd As Boolean) As S
         '
         hint = "030"
         Set doc = New DOMDocument60
-        FilePath = Main.serverprotocol & Main.ServerHost & Main.ServerFilePath
+        FilePath = Main.serverprotocol & Main.ServerHost & Main.serverFilePath
         ConfigFilename = Main.physicalFilePath & LibraryFileTypespathFilename
         Call doc.Load(ConfigFilename)
         If doc.parseError.errorCode <> 0 Then
@@ -1078,7 +1078,7 @@ Dim FileType As String
                     fileSize = kmaEncodeInteger(RowValues(10, RowPtr))
                     AltSizeList = kmaEncodeText(RowValues(11, RowPtr))
                     '
-                    ImageSrc = Main.ServerFilePath & Replace(Filename, "\", "/")
+                    ImageSrc = Main.serverFilePath & Replace(Filename, "\", "/")
                     '
                     DotPosition = InStrRev(ImageSrc, ".")
                     If DotPosition = 0 Then
@@ -1949,7 +1949,7 @@ Private Function GetParentFoldersLink(topFolderPath As String, topFolderID As Lo
     End If
     Exit Function
 ErrorTrap:
-    Call HandleRLTrapError("GetParentFolderLinks")
+    Call HandleRLTrapError("GetParentFoldersLink")
 End Function
 '
 '----------------------------------------------------------------------------------------
@@ -1964,7 +1964,7 @@ Private Function GetFolderPathSelect(topFolderPathID As Long, topFolderPath As S
     Dim cS As Long
     Dim Ptr As Long
     Dim PtrFolderID As Long
-    Dim Cnt As Long
+    Dim cnt As Long
     Dim BakeName As String
     Dim Pos As Long
     Dim FullPath As String
@@ -1989,42 +1989,6 @@ Private Function GetFolderPathSelect(topFolderPathID As Long, topFolderPath As S
                 pathRemoveString = pathRemoveString & Mid(topFolderPath, 1, Pos - 1)
             End If
         End If
-'            If folderCnt > 0 Then
-'                For Ptr = 0 To folderCnt - 1
-'                    hasAccess = folders(Ptr).hasViewAccess
-'                    If hasAccess And RequireModifyAccess Then
-'                        hasAccess = folders(Ptr).hasModifyAccess
-'                    End If
-'                    If hasAccess Then
-'                        PtrFolderID = folders(Ptr).FolderID
-'                        FullPath = folders(Ptr).FullPath
-'                        If FullPath = "" Then
-'                            FullPath = GetFolderPath(Ptr, "")
-'                            folders(Ptr).FullPath = FullPath
-'                        End If
-'                        If topFolderPath <> "" Then
-'                            Pos = InStr(1, FullPath, "\" & topFolderPath, vbTextCompare)
-'                            If Pos = 0 Then
-'                                FullPath = ""
-'                            Else
-'                                FullPath = Mid(FullPath, Pos + 1)
-'                            End If
-'                        End If
-'                        If LCase(FullPath) = LCase("root\" & topFolderPath) Then
-'                            '
-'                            ' block the current folder from the select
-'                            '
-'                        ElseIf FullPath <> "" Then
-'                            '
-'                            ' add this folder path to the select
-'                            '
-'                            IndexCnt = IndexCnt + 1
-'                            folders(Ptr).FullPath = kmaEncodeHTML(FullPath)
-'                            Call FolderPathIndex.SetPointer(FullPath, Ptr)
-'                        End If
-'                    End If
-'                Next
-'            End If
         '
         ' create select
         '
@@ -2043,9 +2007,8 @@ Private Function GetFolderPathSelect(topFolderPathID As Long, topFolderPath As S
                 GetFolderPathSelect = GetFolderPathSelect & "<option value=0>Root</option>"
             End If
         End If
-        PtrString = FolderPathIndex.GetFirstValue
-        Do While (PtrString <> "")
-            Ptr = kmaEncodeInteger(PtrString)
+        Ptr = FolderPathIndex.GetFirstPointer
+        Do While (Ptr >= 0)
             If folders(Ptr).hasViewAccess And ((Not RequireModifyAccess) Or folders(Ptr).hasModifyAccess) Then
                 PtrFolderID = folders(Ptr).FolderID
                 pathCaption = Replace(folders(Ptr).FullPath, pathRemoveString, "", , , vbTextCompare)
@@ -2057,7 +2020,7 @@ Private Function GetFolderPathSelect(topFolderPathID As Long, topFolderPath As S
                 End If
                 optionCnt = optionCnt + 1
             End If
-            PtrString = FolderPathIndex.GetNextValue
+            Ptr = FolderPathIndex.GetNextPointer
         Loop
         '
         ' Create Select
@@ -2076,7 +2039,7 @@ Private Function GetFolderPathSelect(topFolderPathID As Long, topFolderPath As S
     '
     Exit Function
 ErrorTrap:
-    Call HandleRLTrapError("GetParentFolderLinks")
+    Call HandleRLTrapError("getFolderPathSelect")
 End Function
 '
 '
@@ -2113,7 +2076,7 @@ Private Function GetFolderPath(targetPtr As Long, ChildIDList As String) As Stri
     '
     Exit Function
 ErrorTrap:
-    Call HandleRLTrapError("GetParentFolderLinks")
+    Call HandleRLTrapError("getFolderPath")
 End Function
 '
 '
@@ -2131,7 +2094,7 @@ Private Function GetJumpFolderPathSelect(FolderID As Long, topFolderPath As Stri
     '
     Exit Function
 ErrorTrap:
-    Call HandleRLTrapError("GetParentFolderLinks")
+    Call HandleRLTrapError("GetJumpFolderPathSelect")
 End Function
 
 '
@@ -2146,7 +2109,7 @@ Private Function GetMoveFolderPathSelect(FolderID As Long, topFolderPath As Stri
     '
     Exit Function
 ErrorTrap:
-    Call HandleRLTrapError("GetParentFolderLinks")
+    Call HandleRLTrapError("GetMoveFolderPathSelect")
 End Function
 '
 '=============================================================
@@ -2159,7 +2122,7 @@ Private Function GetRLNav(currentFolderID As Long, topFolderPath As String, topF
     '
     Dim cS As Long
     Dim SQL As String
-    Dim Tree As New ccNav.MenuTreeClass
+    Dim Tree As New MenuTreeClass
     Dim BakeName As String
     Dim Caption As String
     Dim Id As Long
@@ -2355,8 +2318,8 @@ Private Function LoadFolders_returnTopFolderId(topFolderPath As String) As Long
             ' Store folders and setup folder index
             '
             ReDim folders(folderCnt - 1)
-            Set FolderIdIndex = New FastIndexClass
-            Set FolderNameIndex = New FastIndexClass
+            Set FolderIdIndex = New FastIndex5Class
+            Set FolderNameIndex = New FastIndex5Class
             For Ptr = 0 To folderCnt - 1
                 FolderID = kmaEncodeInteger(FolderCells(0, Ptr))
                 Call FolderIdIndex.SetPointer(CStr(FolderID), Ptr)
@@ -2375,7 +2338,7 @@ Private Function LoadFolders_returnTopFolderId(topFolderPath As String) As Long
             '
             ' set FullPath, propigate modifyAccess from parent to folder , set ViewAccess
             '
-            Set FolderPathIndex = New FastIndexClass
+            Set FolderPathIndex = New FastIndex5Class
             For Ptr = 0 To folderCnt - 1
                 With folders(Ptr)
                     '
@@ -2451,7 +2414,7 @@ Private Function LoadFolders_returnTopFolderId(topFolderPath As String) As Long
                                 '
                                 Exit Do
                             End If
-                            testFolderPtr = FolderNameIndex.GetNextPointer(targetFolderName)
+                            testFolderPtr = FolderNameIndex.GetNextPointerMatch(targetFolderName)
                         Loop
                         If testFolderPtr >= 0 Then
                             targetFolderId = folders(testFolderPtr).FolderID
@@ -2549,7 +2512,7 @@ Private Function loadFolders_getFolderID(targetArray() As String, targetArrayPtr
                 End If
             End If
         End If
-        cachePtr = FolderNameIndex.GetNextPointer(targetFolderName)
+        cachePtr = FolderNameIndex.GetNextPointerMatch(targetFolderName)
     Loop
     '
     Exit Function
@@ -2675,7 +2638,7 @@ Private Function GetFileTypeID(Filename As String) As Long
     Dim FileExtension As String
     Dim CSType As Long
     Dim DefaultFileTypeID As Long
-    Dim Cnt As Long
+    Dim cnt As Long
     Dim Ptr As Long
     Dim hint As String
     '
@@ -2685,9 +2648,9 @@ Private Function GetFileTypeID(Filename As String) As Long
     ' try to read if from IconFiles
     '
     hint = "1"
-    Cnt = IconFileCnt
-    If Cnt > 0 Then
-        For Ptr = 0 To Cnt - 1
+    cnt = IconFileCnt
+    If cnt > 0 Then
+        For Ptr = 0 To cnt - 1
             hint = "2"
             If InStr(1, "," & IconFiles(Ptr).ExtensionList & ",", "," & FileExtension & ",", vbTextCompare) <> 0 Then
                 hint = "3"
@@ -2699,7 +2662,7 @@ Private Function GetFileTypeID(Filename As String) As Long
                 End If
             End If
         Next
-        If Ptr = Cnt Then
+        If Ptr = cnt Then
             GetFileTypeID = DefaultFileTypeID
         End If
     End If
