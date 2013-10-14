@@ -485,7 +485,7 @@ Private Function GetForm(topFolderPath As String, AllowGroupAdd As Boolean) As S
                 'DownloadCollectionFiles = False
                 'Call AppendClassLogFile("Server", "AddonInstallClass", "DownloadCollectionFiles, The GetCollection request for GUID [" & CollectionGuid & "] named [" & Collectionname & "] returned a file with a bad format. The root node was [" & doc.documentElement.baseName & "] but [" & DownloadFileRootNode & "] was expected.")
             Else
-                If doc.documentElement.childNodes.Length = 0 Then
+                If doc.documentElement.childNodes.length = 0 Then
                     'Return_ErrorMessage = "The collection file from the server was empty for collection [" & CollectionGuid & "]"
                     'Call AppendClassLogFile("Server", "AddonInstallClass", "DownloadCollectionFiles, The GetCollection request for GUID [" & CollectionGuid & "] named [" & Collectionname & "] returned a file with no nodes. The collection was probably not found")
                     'DownloadCollectionFiles = False
@@ -874,7 +874,7 @@ Dim FileType As String
                 ButtonBar = "<div class=ccAdminButtonBar>" _
                     & ButtonExit _
                     & Main.GetFormButton(ButtonApply) _
-                    & Main.GetFormButton(ButtonDelete, RequestNameButton, , "DeleteCheck();") _
+                    & Main.GetFormButton(ButtonDelete, RequestNameButton, , "return DeleteCheck();") _
                     & "</div>"
             Else
                 ButtonBar = "<div class=ccAdminButtonBar>" _
