@@ -606,7 +606,7 @@ Namespace Contensive.Addons.ResourceLibrary
         ''' </summary>
         ''' <param name="fieldName"></param>
         ''' <returns></returns>
-        Protected Function getUploadPath(Of T As baseModel)(fieldName As String) As String
+        Protected Shared Function getUploadPath(Of T As baseModel)(fieldName As String) As String
             Dim instanceType As Type = GetType(T)
             Dim tableName As String = derivedContentTableName(instanceType)
             Return tableName.ToLower() & "/" & fieldName.ToLower() & "/" & id.ToString().PadLeft(12, CChar("0")) & "/"
@@ -692,6 +692,23 @@ Namespace Contensive.Addons.ResourceLibrary
             '
             ' -- set by load(). Used by field to read content from filename when needed
             Public Property internalCp As CPBaseClass = Nothing
+            '
+            Public Sub upload(htmlName As String)
+
+
+                Dim VirtualFilePathPage As String = Main.GetCSFilename(cS, "Filename", ImageFilename, "Library Files")
+                VirtualFilePath = Replace(VirtualFilePathPage, ImageFilename, "")
+                libraryFile.Description = libraryDescription
+                libraryFile.FolderID = currentFolderID
+                cp.Html.ProcessInputFile(imageRequestName, VirtualFilePath)
+
+
+                Dim VirtualFilePathPage As String = Main.GetCSFilename(cS, "Filename", ImageFilename, "Library Files")
+                'Dim VirtualFilePathPage As String = Main.GetCSFilename(cS, "Filename", ImageFilename, "Library Files")
+                VirtualFilePath = Replace(VirtualFilePathPage, ImageFilename, "")
+
+                internalCp.Html.ProcessInputFile(htmlName, VirtualFilePath)
+            End Sub
         End Class
 
         '

@@ -9,9 +9,14 @@ Namespace Contensive.Addons.ResourceLibrary
         Public Const ButtonCancel As String = "Cancel"
         Public Const ButtonDelete As String = "Delete"
         Public Const ButtonApply As String = "Apply"
+        Public Const ButtonClose As String = "Close"
         '
         ' -- sample
-        Public Const rnInputValue As String = "inputValue"
+        Public Const RequestNameButton As String = "button"
+        Public Const RequestNameLibraryUpload As String = "upload"
+        Public Const RequestNameLibraryName As String = "name"
+        Public Const RequestNameLibraryDescription As String = "description"
+        Public Const xxxxx As String = "xxxx"
         '
         ' -- errors for resultErrList
         Public Enum resultErrorEnum

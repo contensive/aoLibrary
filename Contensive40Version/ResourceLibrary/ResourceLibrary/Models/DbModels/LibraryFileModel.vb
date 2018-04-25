@@ -24,7 +24,7 @@ Namespace Contensive.Addons.ResourceLibrary.Models     '<------ set namespace
         Public Property AltText As String
         Public Property Clicks As Integer
         Public Property Description As String
-        Public Property Filename As String
+        Public Property Filename As fieldCdnFile
         Public Property FileSize As Integer
         Public Property FileTypeID As Integer
         Public Property FolderID As Integer

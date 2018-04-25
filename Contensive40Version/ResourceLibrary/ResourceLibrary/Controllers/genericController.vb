@@ -92,8 +92,36 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
         Public Shared Function KmaEncodeSQLNumber(cp As CPBaseClass, src As Double) As String
             Return cp.Db.EncodeSQLNumber(src)
         End Function
-
-
+        Public Shared Function KmaEncodeSQLText(cp As CPBaseClass, src As String) As String
+            Return cp.Db.EncodeSQLText(src)
+        End Function
+        '
+        Public Shared Function htmlButton(cp As CPBaseClass, value As String, Optional htmlClass As String = "", Optional htmlId As String = "", Optional onClick As String = "") As String
+            Dim result As String = "<button name=""name"" value=""" & value & """"
+            result += If(String.IsNullOrEmpty(htmlClass), "", " class=""" & htmlClass & """")
+            result += If(String.IsNullOrEmpty(htmlId), "", " id=""" & htmlId & """")
+            result += If(String.IsNullOrEmpty(onClick), "", " onClick=""" & onClick & """")
+            Return result & ">"
+        End Function
+        '
+        Public Shared Function htmlHidden(cp As CPBaseClass, htmlName As String, htmlValue As String, Optional htmlClass As String = "", Optional htmlId As String = "") As String
+            Dim result As String = "<hidden name=""" & htmlName & """ value=""" & htmlValue & """"
+            result += If(String.IsNullOrEmpty(htmlClass), "", " class=""" & htmlClass & """")
+            result += If(String.IsNullOrEmpty(htmlId), "", " id=""" & htmlId & """")
+            Return result & ">"
+        End Function
+        '
+        Public Shared Function htmlHidden(cp As CPBaseClass, htmlName As String, htmlValue As Integer, Optional htmlClass As String = "", Optional htmlId As String = "") As String
+            Return htmlHidden(cp, htmlName, htmlValue.ToString(), htmlClass, htmlId)
+        End Function
+        '
+        Public Shared Function adminUrl(cp As CPBaseClass) As String
+            Return cp.Site.GetText("adminurl")
+        End Function
+        '
+        Public Shared Function kmaEncodeURL(cp As CPBaseClass, url As String) As String
+            Return cp.Utils.EncodeUrl(url)
+        End Function
     End Class
 End Namespace
 
