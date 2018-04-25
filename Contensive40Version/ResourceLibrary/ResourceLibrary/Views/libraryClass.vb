@@ -12,6 +12,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
     Public Class addonClass
         Inherits AddonBaseClass
         '
+        Private main As vbConversion.Contensive.VbConversion.MainClass
 
         Public Class FileType
             Public Name As String
@@ -44,9 +45,9 @@ Namespace Contensive.Addons.ResourceLibrary.Views
         End Class
         Public folders() As FolderType
         Public folderCnt As Integer
-        Public FolderIdIndex As Dictionary(Of String, Integer)
-        Public FolderNameIndex As Dictionary(Of String, Integer)
-        Public FolderPathIndex As Dictionary(Of String, Integer)
+        Public FolderIdIndex As vbConversion.Contensive.VbConversion.fastIndexClass
+        Public FolderNameIndex As vbConversion.Contensive.VbConversion.fastIndexClass
+        Public FolderPathIndex As vbConversion.Contensive.VbConversion.fastIndexClass
         '
         Public FolderSelect As String
         '
@@ -108,7 +109,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
         Public SourceMode As Integer                      '
         '
         '        ' SourceMode
-        '        '   3/6/2010 - moved codes up to capture the 0 case and set it to page
+        '        '   3/6/2010 - moved codes up to capture the 0 case and it to page
         '        '   1 = From Editor Object or Link selector: allow image and download insert, provide close button
         '        '   2 = From Editor Image Properties: allow image insert, provide close button
         '        '   3 = From Admin site, no inserts, and provide cancel button
@@ -141,6 +142,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                 '
                 ' -- initialize application. If authentication needed and not login page, pass true
                 Using ae As New applicationController(CP, False)
+                    main = New vbConversion.Contensive.VbConversion.MainClass(CP)
                     '
                     ' -- your code
                     result = GetContent(CP)
@@ -164,13 +166,13 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             Dim AllowGroupAdd As Boolean
             Dim OptionString As String = ""
             '
-            topFolderPath = Main_getAddonOption(cp, "RootFolderName", OptionString)
-            Call Main_testpoint(cp, "topFolderPath=[" & topFolderPath & "]")
-            AllowGroupAdd = (getBoolean_Main_getAddonOption(cp, "AllowGroupAdd", OptionString))
-            AllowPlace = (getBoolean_Main_getAddonOption(cp, "AllowSelectResource", OptionString))
-            SelectResourceEditorObjectName = Main_getAddonOption(cp, "SelectResourceEditorObjectName", OptionString)
-            SelectLinkObjectName = Main_getAddonOption(cp, "SelectLinkObjectName", OptionString)
-            blockFolderNavigation = (getBoolean_Main_getAddonOption(cp, "Block Folder Navigation", OptionString))
+            topFolderPath = main.GetAddonOption("RootFolderName", OptionString)
+            Call main.TestPoint("topFolderPath=[" & topFolderPath & "]")
+            AllowGroupAdd = cp.Utils.EncodeBoolean(main.GetAddonOption("AllowGroupAdd", OptionString))
+            AllowPlace = cp.Utils.EncodeBoolean(main.GetAddonOption("AllowSelectResource", OptionString))
+            SelectResourceEditorObjectName = main.GetAddonOption("SelectResourceEditorObjectName", OptionString)
+            SelectLinkObjectName = main.GetAddonOption("SelectLinkObjectName", OptionString)
+            blockFolderNavigation = cp.Utils.EncodeBoolean(main.GetAddonOption("Block Folder Navigation", OptionString))
             '
             ' topFolder should be in this format toptier\tier2\tier2
             '   all lowercase, no leading or trailing slashes, backslashs, remove 'root\'
@@ -243,7 +245,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             'Dim AllowUpFolder As Boolean
             Dim ImageSrc As String
             Dim IconLink As String
-            Dim IconOnClick As String
+            Dim IconOnClick As String = ""
             Dim EditLink As String
             Dim ModifiedDate As Date
             Dim Description As String
@@ -360,7 +362,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                 ' verify that current folder has viewAccess (if not jumpt to root)
                 '
                 If currentFolderID <> 0 Then
-                    currentFolderPtr = FolderIdIndex.Item(CStr(currentFolderID))
+                    currentFolderPtr = FolderIdIndex.getPtr(CStr(currentFolderID))
                     If (currentFolderPtr > UBound(folders)) Or (currentFolderPtr < 0) Then
                         currentFolderPtr = 0
                     End If
@@ -390,7 +392,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     '
                     ' others have modify access to this folder if they are in a modify access group
                     '
-                    currentFolderPtr = FolderIdIndex.Item(CStr(currentFolderID))
+                    currentFolderPtr = FolderIdIndex.getPtr(CStr(currentFolderID))
                     If currentFolderPtr >= 0 Then
                         currentFolderHasModifyAccess = folders(currentFolderPtr).hasModifyAccess
                     End If
@@ -767,25 +769,25 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                 ' ----- Begin output
                 '
                 If (SourceMode = SourceModeFromDownloadRequest) Or (SourceMode = SourceModeFromLinkDialog) Then
-                    ButtonExit = genericController.htmlButton(cp, ButtonClose, , , "window.close();")
+                    ButtonExit = genericController.htmlButton(ButtonClose, , , "window.close();")
                 Else
-                    ButtonExit = genericController.htmlButton(cp, ButtonCancel)
+                    ButtonExit = genericController.htmlButton(ButtonCancel)
                 End If
                 ButtonBar = ""
                 If AllowLocalFileAdd Then
                     If currentFolderHasModifyAccess Then
                         ButtonBar = "<div class=ccAdminButtonBar>" _
                             & ButtonExit _
-                            & genericController.htmlButton(cp, ButtonApply) _
-                            & genericController.htmlButton(cp, ButtonDelete, RequestNameButton, , "return DeleteCheck();") _
+                            & genericController.htmlButton(ButtonApply) _
+                            & genericController.htmlButton(ButtonDelete, RequestNameButton, , "return DeleteCheck();") _
                             & "</div>"
                     Else
                         ButtonBar = "<div class=ccAdminButtonBar>" _
-                            & genericController.htmlButton(cp, ButtonApply) _
+                            & genericController.htmlButton(ButtonApply) _
                             & "</div>"
                     End If
                 End If
-                result = result & genericController.htmlHidden(cp, "FolderID", currentFolderID) & ButtonBar
+                result = result & genericController.htmlHidden("FolderID", currentFolderID) & ButtonBar
                 Dim JumpSelect As String = GetJumpFolderPathSelect(cp, currentFolderID, topFolderPath)
                 result = result & "<div style=""padding:10px;"">" & GetParentFoldersLink(cp, topFolderPath, topFolderID, currentFolderID, currentFolderID, cp.Doc.RefreshQueryString, "") & "</div>"
                 If JumpSelect <> "" Then
@@ -1036,7 +1038,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                 '
                 hint = "800"
                 For RowCount = RowCount To iMinRows
-                    FormDetails = FormDetails & GetFormRow_Blank(cp, "", "", "", "", "", 0, RowCount, "", "", "BLANK", "", "", "", "", "", 0, currentFolderID, AllowEditColumn, AllowPlaceColumn, AllowSelectColumn, ColumnCnt)
+                    FormDetails = FormDetails & GetFormRow_Blank(cp, "", "", "", "", "", Nothing, RowCount, "", "", "BLANK", "", "", "", "", "", 0, currentFolderID, AllowEditColumn, AllowPlaceColumn, AllowSelectColumn, ColumnCnt)
                 Next
                 '
                 ' Upload link
@@ -1051,7 +1053,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                 '
                 ' Bottom border
                 '
-                FormDetails = FormDetails & "<tr class=""border""><td class=""border"" Colspan=" & (ColumnCnt) & ">" & Main.GetPanel("&nbsp;") & "</td></tr>"
+                FormDetails = FormDetails & "<tr class=""border""><td class=""border"" Colspan=" & (ColumnCnt) & ">" & main.GetPanel("&nbsp;") & "</td></tr>"
                 FormDetails = FormDetails & "</table>"
                 '
                 ' Create the FormFolders
@@ -1071,7 +1073,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                 result = result & "<td class=""content"">" & FormDetails & "</td>"
                 result = result & "</tr></Table>"
                 result = result & ButtonBar
-                result = result & Main.resultInputHidden("RowCount", RowCount)
+                result = result & htmlHidden("RowCount", RowCount)
                 result = cp.Html.Form(result)
             End If
             '
@@ -1117,7 +1119,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             CellStart5 = "<td class=""left ccAdminSmall " & RowClass & """>"
             CellEnd = "</td>"
             '
-            If ModifiedDate = CDate(0) Then
+            If ModifiedDate <= Date.MinValue Then
                 DateString = "&nbsp;"
             Else
                 DateString = FormatDateTime(ModifiedDate, vbShortDate)
@@ -1147,7 +1149,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
         '=================================================================================
         '
         Private Function GetFormRow_ChildFolders(cp As CPBaseClass, ignore0 As String, IconLink As String, IconOnClick As String, Name As String, NameLink As String, ModifiedDate As Date, RowCount As Integer, EditLink As String, Description As String, FileType As String, ResourceName As String, ResourceLink As String, ImageAlt As String, ImageWidth As String, ImageHeight As String, RecordID As Integer, FolderID As Integer, AllowEditColumn As Boolean, AllowPlaceColumn As Boolean, AllowSelectColumn As Boolean) As String
-            v
+
             '
             Dim RowClass As String
             Dim AnchorTag As String
@@ -1175,7 +1177,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             CellStartRight = vbCrLf & "<td class=""right ccAdminSmall"">"
             CellEnd = "</td>"
             '
-            If ModifiedDate = CDate(0) Then
+            If ModifiedDate <= Date.MinValue Then
                 DateString = "&nbsp;"
             Else
                 DateString = FormatDateTime(ModifiedDate, vbShortDate)
@@ -1186,7 +1188,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             '
             GetFormRow_ChildFolders = GetFormRow_ChildFolders & vbCrLf & "<tr class=""listRow"" ID=""Row" & RowCount & """>"
             If AllowSelectColumn Then
-                GetFormRow_ChildFolders = GetFormRow_ChildFolders & CellStartCenter & "<input type=checkbox ID=Select" & RowCount & " name=Row" & RowCount & " value=1 onClick=""RLRowClick(this.checked,'Row" & RowCount & "');"">" & Main.GetFormInputHidden("Row" & RowCount & "FolderID", FolderID) & CellEnd
+                GetFormRow_ChildFolders = GetFormRow_ChildFolders & CellStartCenter & "<input type=checkbox ID=Select" & RowCount & " name=Row" & RowCount & " value=1 onClick=""RLRowClick(this.checked,'Row" & RowCount & "');"">" & htmlHidden("Row" & RowCount & "FolderID", FolderID) & CellEnd
             End If
             If AllowEditColumn Then
                 If EditLink <> "" Then
@@ -1258,7 +1260,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             CellStartRight = vbCrLf & "<td class=""right ccAdminSmall"">"
             CellEnd = "</td>"
             '
-            If ModifiedDate = CDate(0) Then
+            If ModifiedDate <= Date.MinValue Then
                 DateString = "&nbsp;"
             Else
                 DateString = FormatDateTime(ModifiedDate, vbShortDate)
@@ -1356,7 +1358,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             '
             GetFormRow_Files = GetFormRow_Files & vbCrLf & "<tr class=""listRow"" ID=""Row" & RowCount & """>"
             If AllowSelectColumn Then
-                GetFormRow_Files = GetFormRow_Files & CellStartCenter & "<input type=checkbox ID=Select" & RowCount & " name=Row" & RowCount & " value=1 onClick=""RLRowClick(this.checked,'Row" & RowCount & "');"">" & Main.GetFormInputHidden("Row" & RowCount & "FileID", RecordID) & CellEnd
+                GetFormRow_Files = GetFormRow_Files & CellStartCenter & "<input type=checkbox ID=Select" & RowCount & " name=Row" & RowCount & " value=1 onClick=""RLRowClick(this.checked,'Row" & RowCount & "');"">" & htmlHidden("Row" & RowCount & "FileID", RecordID) & CellEnd
             End If
             '
             ' ----- Edit Column
@@ -1388,7 +1390,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     '
                     ' return the objects URL to the input element with ID=SelectLinkObjectName
                     '
-                    JSCopy = kmaEncodeJavascript(ResourceLink)
+                    JSCopy = kmaEncodeJavascript(cp, ResourceLink)
                     ImageLink = "<img src=""/ResourceLibrary/ResourceLink1616.gif"" border=""0"" width=""16"" height=""16"" alt=""Place a link to this resource"" title=""Place a link to this resource"" valign=""absmiddle"">"
                     GetFormRow_Files = GetFormRow_Files & CellStartCenter & "<a href=""#"" onClick=""var e=window.opener.document.getElementById('" & SelectLinkObjectName & "');e.value='" & JSCopy & "'; window.close();"">" & ImageLink & "</A>" & CellEnd
                 ElseIf SourceMode = SourceModeFromDownloadRequest Then
@@ -1398,7 +1400,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     If IsDownload Then
                         JSCopy = Downloadfilename
                         JSCopy = Replace(JSCopy, "\", "\\")
-                        JSCopy = kmaEncodeJavascript(JSCopy)
+                        JSCopy = kmaEncodeJavascript(cp, JSCopy)
                         ImageLink = "<img src=""/ResourceLibrary/IconDownload2.gif"" border=""0"" width=""23"" height=""22"" alt=""Link to this resource"" title=""Link to this resource"" valign=""absmiddle"">"
                         GetFormRow_Files = GetFormRow_Files & CellStartCenter & "<a href=""#"" onClick=""window.opener.InsertDownload( '" & RecordID & "','" & SelectResourceEditorObjectName & "','" & JSCopy & "'); window.close();"">" & ImageLink & "</A>" & CellEnd
                     Else
@@ -1409,7 +1411,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     ' Return the file as a url to the editor dialog
                     '
                     If AllowPlace Then
-                        JSCopy = kmaEncodeJavascript(ResourceLink)
+                        JSCopy = kmaEncodeJavascript(cp, ResourceLink)
                         JSClose = "" _
                 & " if(navigator.appName.indexOf('Microsoft')!=-1) {window.returnValue='" & JSCopy & "'}" _
                 & " else{window.opener.setAssetValue('" & JSCopy & "')}" _
@@ -1450,10 +1452,6 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             '
             GetFormRow_Files = GetFormRow_Files & CellStartRight & DateString & CellEnd
             GetFormRow_Files = GetFormRow_Files & "</tr>"
-            '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetFormRow_Files")
         End Function
 
         '
@@ -1466,9 +1464,6 @@ ErrorTrap:
             '
             GetFormRow_Blank = vbCrLf & vbTab & "<tr class=""listRow""><td class=""left""><img height=""23"" width=""22"" src=""/ResourceLibrary/spacer.gif""></td><td class=""left"" colspan=""" & ColumnCnt - 1 & """>&nbsp;</td></tr>"
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetFormRow_Blank")
         End Function
         '
         '=================================================================================
@@ -1510,7 +1505,7 @@ ErrorTrap:
         & "</Table>" _
         & "<table border=""0"" cellpadding=""0"" cellspacing=""1"" width=""100%"">" _
         & "<tr><td class=""left"" Width=""30""><img src=/ResourceLibrary/spacer.gif width=30 height=1></td><td align=""left""><a href=""#"" onClick=""InsertFolderRow(); return false;"">+ Add more folders</a></td></tr>" _
-        & "</Table>" & Main.GetFormInputHidden("AddFolderCount", 1, "AddFolderCount")
+        & "</Table>" & htmlHidden("AddFolderCount", 1, "AddFolderCount")
             End If
             If hasModifyAccess Then
                 FileCell = FileCell _
@@ -1532,59 +1527,48 @@ ErrorTrap:
         & "</Table>" _
         & "<table border=""0"" cellpadding=""0"" cellspacing=""1"" width=""100%"">" _
         & "<tr><td class=""left"" Width=""30""><img src=/ResourceLibrary/spacer.gif width=30 height=1></td><td class=""left"" align=""left""><a href=""#"" onClick=""InsertUploadRow(); return false;"">+ Add more files</a></td></tr>" _
-        & "</Table>" & Main.GetFormInputHidden("LibraryUploadCount", 1, "LibraryUploadCount")
+        & "</Table>" & htmlHidden("LibraryUploadCount", 1, "LibraryUploadCount")
             End If
             '
             '
             '
             GetFormRow_Options = "" _
-    & "<img src=""/ResourceLibrary/spacer.gif"" width=""1"" height=""5"">" _
-    & "<BR>" & Main.GetFormInputCheckBox("AllowThumbnails", cp.User.GetText("LibraryAllowthumbnails", False)) & "&nbsp;Display Thumbnails"
+                & "<img src=""/ResourceLibrary/spacer.gif"" width=""1"" height=""5"">" _
+                & "<BR>" & main.GetFormInputCheckBox("AllowThumbnails", cp.User.GetBoolean("LibraryAllowthumbnails", "0")) & "&nbsp;Display Thumbnails"
             If cp.User.IsAdmin Or hasModifyAccess Then
-                moveSelect = GetMoveFolderPathSelect(FolderID, topFolderPath)
+                moveSelect = GetMoveFolderPathSelect(cp, FolderID, topFolderPath)
                 If moveSelect <> "" Then
-                    GetFormRow_Options = GetFormRow_Options & "<BR>" & Main.GetFormInputCheckBox("Move", False, "Move") & "&nbsp;Move selected files to " & moveSelect
+                    GetFormRow_Options = GetFormRow_Options & "<BR>" & main.GetFormInputCheckBox("Move", False) & "&nbsp;Move selected files to " & moveSelect
                 End If
                 If FolderCell <> "" Then
-                    GetFormRow_Options = GetFormRow_Options & "<BR><BR>" & Main.GetPanelInput(FolderCell)
+                    GetFormRow_Options = GetFormRow_Options & "<BR><BR>" & main.GetPanelInput(FolderCell)
                 End If
                 If FileCell <> "" Then
-                    GetFormRow_Options = GetFormRow_Options & "<BR>" & Main.GetPanelInput(FileCell)
+                    GetFormRow_Options = GetFormRow_Options & "<BR>" & main.GetPanelInput(FileCell)
                 End If
             End If
             If GetFormRow_Options <> "" Then
-                GetFormRow_Options = Main.GetPanel(GetFormRow_Options)
+                GetFormRow_Options = main.GetPanel(GetFormRow_Options)
                 GetFormRow_Options = "<tr><td class=""left"" colspan=" & (ColumnCnt) & ">" & GetFormRow_Options & "</td></tr>"
             End If
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetFormRow_Options")
         End Function
         '
         '
         '
         Private Function GetForm_HeaderCell(cp As CPBaseClass, Align As String, Width As String, Copy As String) As String
-
-            '
-            Dim Style
-            '
-            Style = "" _
-    & "padding: 3px;" _
-    & "font-size:10px;"
-            GetForm_HeaderCell = "<td WIDTH=""" & Width & """ ALIGN=""" & Align & """ class=ccAdminListCaption style=""" & Style & """>" _
-    & Copy _
-    & "</td>"
-            '& Main.GetPanel(kmaAddSpan(Copy, "ccAdminSmall") & "<BR /><IMG SRC=""/ResourceLibrary/spacer.gif"" WIDTH=""1"" HEIGHT=""1"">")
-            '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetForm_HeaderCell")
+            Dim Style As String = "" _
+                & "padding: 3px;" _
+                & "font-size:10px;"
+            Dim result As String = "<td WIDTH=""" & Width & """ ALIGN=""" & Align & """ class=ccAdminListCaption style=""" & Style & """>" _
+                & Copy _
+                & "</td>"
+            Return result
         End Function
         '
         '
         '
-        Private Function IsInFolder(cp As CPBaseClass, topFolderID As Integer, FolderID As Integer, Optional ParentPath As String) As Boolean
+        Private Function IsInFolder(cp As CPBaseClass, topFolderID As Integer, FolderID As Integer, Optional ParentPath As String = "") As Boolean
 
             '
             Dim cS As Integer
@@ -1598,23 +1582,19 @@ ErrorTrap:
                 IsInFolder = False
             Else
                 ParentPath = ParentPath & "," & CStr(FolderID)
-                cS = Main.OpenCSContentRecord("Library Folders", FolderID, , , "ParentID")
-                If Main.IsCSOK(cS) Then
-                    ParentID = Main.GetCSInteger(cS, "ParentID")
+                Dim folder As LibraryFolderModel = LibraryFolderModel.create(cp, FolderID)
+                If (folder IsNot Nothing) Then
+                    ParentID = folder.ParentID
                 End If
-                Call Main.closecs(cS)
                 If ParentID = 0 Then
                     IsInFolder = False
                 ElseIf ParentID = topFolderID Then
                     IsInFolder = True
                 Else
-                    IsInFolder = IsInFolder(topFolderID, ParentID, ParentPath)
+                    IsInFolder = IsInFolder(cp, topFolderID, ParentID, ParentPath)
                 End If
             End If
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetResourceLibraryRow")
         End Function
         '
         '
@@ -1643,13 +1623,13 @@ ErrorTrap:
                     GetParentFoldersLink = "Folder <a href=?" & RefreshQS & "&FolderID=0>" & folderName & "</a>"
                 End If
             Else
-                cS = Main.OpenCSContent("Library Folders", "ID=" & FolderID, , , , , "Name,ParentID")
-                If Main.IsCSOK(cS) Then
+                cS = main.OpenCSContent("Library Folders", "ID=" & FolderID, , , , , "Name,ParentID")
+                If main.IsCSOK(cS) Then
                     RecordFound = True
-                    ParentID = Main.GetCSInteger(cS, "ParentID")
-                    folderName = Main.GetCSText(cS, "Name")
+                    ParentID = main.GetCSInteger(cS, "ParentID")
+                    folderName = main.GetCSText(cS, "Name")
                 End If
-                Call Main.closecs(cS)
+                Call main.closecs(cS)
                 '
                 If currentFolderID = FolderID Then
                     FolderLink = "<B>" & folderName & "</B>"
@@ -1681,8 +1661,6 @@ ErrorTrap:
                 End If
             End If
             Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetParentFoldersLink")
         End Function
         '
         '----------------------------------------------------------------------------------------
@@ -1771,8 +1749,6 @@ ErrorTrap:
             End If
             '
             Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("getFolderPathSelect")
         End Function
         '
         '
@@ -1808,8 +1784,6 @@ ErrorTrap:
             End If
             '
             Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("getFolderPath")
         End Function
         '
         '
@@ -1817,7 +1791,7 @@ ErrorTrap:
         Private Function GetJumpFolderPathSelect(cp As CPBaseClass, FolderID As Integer, topFolderPath As String) As String
 
             '
-            GetJumpFolderPathSelect = GetFolderPathSelect(FolderID, topFolderPath, False)
+            GetJumpFolderPathSelect = GetFolderPathSelect(cp, FolderID, topFolderPath, False)
             If GetJumpFolderPathSelect <> "" Then
                 GetJumpFolderPathSelect = Replace(GetJumpFolderPathSelect, "FieldName", "JumpFolderID")
                 GetJumpFolderPathSelect = Replace(GetJumpFolderPathSelect, "onChange", "onChange=""QJump(this);"" ")
@@ -1826,8 +1800,6 @@ ErrorTrap:
             End If
             '
             Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetJumpFolderPathSelect")
         End Function
 
         '
@@ -1836,13 +1808,10 @@ ErrorTrap:
         Private Function GetMoveFolderPathSelect(cp As CPBaseClass, FolderID As Integer, topFolderPath As String) As String
 
             '
-            GetMoveFolderPathSelect = GetFolderPathSelect(FolderID, topFolderPath, True)
+            GetMoveFolderPathSelect = GetFolderPathSelect(cp, FolderID, topFolderPath, True)
             GetMoveFolderPathSelect = Replace(GetMoveFolderPathSelect, "FieldName", "MoveFolderID")
             GetMoveFolderPathSelect = Replace(GetMoveFolderPathSelect, "onChange", "onChange=""var e=getElementById('Move');if(e){e.checked=true};"" ")
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetMoveFolderPathSelect")
         End Function
         '
         '=============================================================
@@ -1890,7 +1859,7 @@ ErrorTrap:
                     Next
                 End If
                 GetRLNav = Tree.GetTree(CStr(topFolderID), CStr(currentFolderID))
-                Call Main.SaveBake(BakeName, GetRLNav, "Library Folders")
+                Call main.SaveBake(BakeName, GetRLNav, "Library Folders")
             End If
             '    '
             '    ' Get topFolderPath
@@ -1903,7 +1872,7 @@ ErrorTrap:
             '
             ' open the current node
             '
-            Call Main.AddOnLoadJavascript("convertTrees(); expandToItem('tree0','" & currentFolderID & "');")
+            Call main.AddOnLoadJavascript("convertTrees(); expandToItem('tree0','" & currentFolderID & "');")
             'Link = "?" & LinkBase
             'Link = "<div style=""position:relative;left:-10;margin-bottom:3px;""><a href=" & Link & " style=""text-decoration:none ! important;"">" & topFolderPath & "</a></div>"
             'GetRLNav = Replace(GetRLNav, "<LI ", Link & "<LI ", 1, 1, vbTextCompare)
@@ -1911,16 +1880,11 @@ ErrorTrap:
             'GetRLNav = GetRLNav & "<script type=""text/javascript"">convertTrees(); expandToItem('tree0','" & CurrentFolderID & "');</script>"
             ''End If
 
-            '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetRLNav")
         End Function
         '
         '
         '
-        Private Function AllowFolderAccess(cp As CPBaseClass, FolderID As Integer, ParentID As Integer)
-
+        Private Function AllowFolderAccess(cp As CPBaseClass, FolderID As Integer, ParentID As Integer) As Boolean
             '
             Dim SQL As String
             Dim cS As Integer
@@ -1931,31 +1895,28 @@ ErrorTrap:
             Else
                 SQL = "select top 1 *" _
         & " from ccMemberRules M,ccLibraryFolderRules R" _
-        & " where M.MemberID=" & Main.memberID _
+        & " where M.MemberID=" & main.memberID _
         & " and R.FolderID=" & FolderID _
         & " and M.GroupID=R.GroupID" _
         & " and R.Active<>0" _
         & " and M.Active<>0" _
         & " and ((M.DateExpires is null)or(M.DateExpires>" & KmaEncodeSQLDate(Now) & "))"
-                cS = Main.OpenCSSQL("default", SQL)
-                AllowFolderAccess = Main.IsCSOK(cS)
-                Call Main.closecs(cS)
+                cS = main.OpenCSSQL("default", SQL)
+                AllowFolderAccess = main.IsCSOK(cS)
+                Call main.closecs(cS)
                 '
                 ' If no folder access, check its parent folder
                 '
                 If Not AllowFolderAccess And (ParentID <> 0) Then
-                    cS = Main.OpenCSContentRecord("Library Folders", ParentID)
-                    If Main.IsCSOK(cS) Then
-                        GrandParentID = Main.GetCSInteger(cS, "ParentID")
+                    cS = main.OpenCSContentRecord("Library Folders", ParentID)
+                    If main.IsCSOK(cS) Then
+                        GrandParentID = main.GetCSInteger(cS, "ParentID")
                     End If
-                    Call Main.closecs(cS)
-                    AllowFolderAccess = AllowFolderAccess(ParentID, GrandParentID)
+                    Call main.closecs(cS)
+                    AllowFolderAccess = AllowFolderAccess(cp, ParentID, GrandParentID)
                 End If
             End If
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("AllowFolderAccess")
         End Function
         '
         '
@@ -1983,20 +1944,17 @@ ErrorTrap:
                 '
                 ' Need to check permissions
                 '
-                Call LoadFolders_returnTopFolderId(topFolderPath)
+                Call LoadFolders_returnTopFolderId(cp, topFolderPath)
                 If FolderID = 0 Then
                     hasModifyAccessByFolder = True
                 Else
-                    Ptr = FolderIdIndex.Item(CStr(FolderID))
+                    Ptr = FolderIdIndex.getPtr(CStr(FolderID))
                     If Ptr >= 0 Then
                         hasModifyAccessByFolder = folders(Ptr).hasModifyAccess
                     End If
                 End If
             End If
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("hasModifyAccessByFolder")
         End Function
         '
         '
@@ -2034,15 +1992,15 @@ ErrorTrap:
         & " F.ID" _
         & " ,F.ParentID" _
         & " ,F.Name" _
-        & " ,(select top 1 ID from ccMemberRules where ccMemberRules.MemberID=" & Main.memberID & " and ccMemberRules.GroupID=FR.GroupID) as Allowed" _
+        & " ,(select top 1 ID from ccMemberRules where ccMemberRules.MemberID=" & main.memberID & " and ccMemberRules.GroupID=FR.GroupID) as Allowed" _
         & " from (cclibraryfolders F left join ccLibraryFolderRules FR on FR.FolderID=F.ID)" _
         & " where (f.active<>0)" _
         & " order by f.name"
-                cS = Main.OpenCSSQL("default", SQL)
-                If Main.IsCSOK(cS) Then
-                    FolderCells = Main.GetCSRows(cS)
+                cS = main.OpenCSSQL("default", SQL)
+                If main.IsCSOK(cS) Then
+                    FolderCells = main.GetCSRows(cS)
                 End If
-                Call Main.closecs(cS)
+                Call main.closecs(cS)
                 If Not IsEmpty(FolderCells) Then
                     folderCnt = UBound(FolderCells, 2) + 1
                 End If
@@ -2051,9 +2009,9 @@ ErrorTrap:
                     ' Store folders and setup folder index
                     '
                     ReDim folders(folderCnt - 1)
-            Set FolderIdIndex = New FastIndex5Class
-            Set FolderNameIndex = New FastIndex5Class
-            For Ptr = 0 To folderCnt - 1
+                    FolderIdIndex = New FastIndex5Class
+                    FolderNameIndex = New FastIndex5Class
+                    For Ptr = 0 To folderCnt - 1
                         FolderID = cp.Utils.EncodeInteger(FolderCells(0, Ptr))
                         Call FolderIdIndex.SetPointer(CStr(FolderID), Ptr)
                         targetFolderName = kmaEncodeText(FolderCells(2, Ptr))
@@ -2068,26 +2026,26 @@ ErrorTrap:
                             .hasViewAccess = False
                         End With
                     Next
-            '
-            ' set FullPath, propigate modifyAccess from parent to folder , set ViewAccess
-            '
-            Set FolderPathIndex = New FastIndex5Class
-            For Ptr = 0 To folderCnt - 1
+                    '
+                    ' FullPath, propigate modifyAccess from parent to folder , ViewAccess
+                    '
+                    FolderPathIndex = New FastIndex5Class
+                    For Ptr = 0 To folderCnt - 1
                         With folders(Ptr)
                             '
                             ' determine modify access
                             '
                             If (Not .modifyAccessIsValid) Then
-                                .hasModifyAccess = LoadFolders_GetModifyAccess(.parentFolderID)
+                                .hasModifyAccess = LoadFolders_GetModifyAccess(cp, .parentFolderID)
                                 .modifyAccessIsValid = True
                             End If
                             '
-                            ' set FullPath
+                            ' FullPath
                             '
                             'testFolderID = folders(Ptr).FolderID
                             'testFullPath = folders(Ptr).FullPath
                             'If testFullPath = "" Then
-                            testFullPath = GetFolderPath(Ptr, "")
+                            testFullPath = GetFolderPath(cp, Ptr, "")
                             folders(Ptr).FullPath = testFullPath
                             'End If
                             Call FolderPathIndex.SetPointer(testFullPath, Ptr)
@@ -2122,7 +2080,7 @@ ErrorTrap:
                     If topFolderPath <> "" Then
                         targetFolders = Split(topFolderPath, "\")
                         targetFolderCnt = UBound(targetFolders) + 1
-                        topFolderID = loadFolders_getFolderID(targetFolders, targetFolderCnt - 1)
+                        topFolderID = loadFolders_getFolderID(cp, targetFolders, targetFolderCnt - 1)
                         '
                         ' if topFolderId not found, create the new folder(s) necessary to targetFolderPath
                         '
@@ -2134,7 +2092,7 @@ ErrorTrap:
                                 '
                                 ' find or create the folder with this name and this targetParentFolderID
                                 '
-                                testFolderPtr = FolderNameIndex.Item(targetFolderName)
+                                testFolderPtr = FolderNameIndex.getPtr(targetFolderName)
                                 Do While testFolderPtr >= 0
                                     testParentID = folders(testFolderPtr).parentFolderID
                                     If targetParentFolderID <> testParentID Then
@@ -2143,7 +2101,7 @@ ErrorTrap:
                                         '
                                     Else
                                         '
-                                        ' good match, set this as the parent and find the next
+                                        ' good match, this as the parent and find the next
                                         '
                                         Exit Do
                                     End If
@@ -2155,13 +2113,13 @@ ErrorTrap:
                                     '
                                     ' folder not found, create it with the parent
                                     '
-                                    cS = Main.InsertCSRecord("Library Folders")
-                                    If Main.IsCSOK(cS) Then
-                                        targetFolderId = Main.GetCSInteger(cS, "ID")
-                                        Call Main.SetCS(cS, "name", targetFolderName)
-                                        Call Main.SetCS(cS, "parentid", targetParentFolderID)
+                                    cS = main.InsertCSRecord("Library Folders")
+                                    If main.IsCSOK(cS) Then
+                                        targetFolderId = main.GetCSInteger(cS, "ID")
+                                        Call main.SetCS(cS, "name", targetFolderName)
+                                        Call main.SetCS(cS, "parentid", targetParentFolderID)
                                     End If
-                                    Call Main.closecs(cS)
+                                    Call main.closecs(cS)
                                 End If
                                 If Ptr = (targetFolderCnt - 1) Then
                                     topFolderID = targetFolderId
@@ -2174,9 +2132,6 @@ ErrorTrap:
             '
             LoadFolders_returnTopFolderId = topFolderID
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("hasModifyAccessByFolder")
         End Function
         '
         '===============================================================================================
@@ -2199,7 +2154,7 @@ ErrorTrap:
             '
             loadFolders_getFolderID = 0
             targetFolderName = targetArray(targetArrayPtr)
-            cachePtr = FolderNameIndex.Item(targetFolderName)
+            cachePtr = FolderNameIndex.getPtr(targetFolderName)
             Do While cachePtr >= 0
                 cacheFolderID = folders(cachePtr).FolderID
                 If targetArrayPtr = 0 Then
@@ -2223,7 +2178,7 @@ ErrorTrap:
                     ' of this match, if it is ok, return with this id. If not, try the next
                     ' cache match for this folder name.
                     '
-                    targetFolderParentId = loadFolders_getFolderID(targetArray, targetArrayPtr - 1)
+                    targetFolderParentId = loadFolders_getFolderID(cp, targetArray, targetArrayPtr - 1)
                     If targetFolderParentId <= 0 Then
                         '
                         ' parent folder not found, try the next matching folder name
@@ -2248,9 +2203,6 @@ ErrorTrap:
                 cachePtr = FolderNameIndex.GetNextPointerMatch(targetFolderName)
             Loop
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("loadFolders_getFolderID")
         End Function
         '
         '
@@ -2260,7 +2212,7 @@ ErrorTrap:
             '
             Dim Ptr As Integer
             '
-            Ptr = FolderIdIndex.Item(CStr(FolderID))
+            Ptr = FolderIdIndex.getPtr(CStr(FolderID))
             If Ptr >= 0 Then
                 If folders(Ptr).modifyAccessIsValid Then
                     '
@@ -2278,15 +2230,12 @@ ErrorTrap:
                     '
                     ' Parent is not root
                     '
-                    LoadFolders_GetModifyAccess = LoadFolders_GetModifyAccess(folders(Ptr).parentFolderID)
+                    LoadFolders_GetModifyAccess = LoadFolders_GetModifyAccess(cp, folders(Ptr).parentFolderID)
                     folders(Ptr).hasModifyAccess = LoadFolders_GetModifyAccess
                     folders(Ptr).modifyAccessIsValid = True
                 End If
             End If
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("LoadFolders_GetModifyAccess")
         End Function
         '
         '=================================================================================
@@ -2317,11 +2266,11 @@ ErrorTrap:
             Dim SlashPosition As Integer
             Dim Filename As String
             Dim Pathname As String
-            Dim tickstart As Integer
+            'Dim tickstart As Integer
             Dim hint As String
             '
             hint = "1"
-            tickstart = GetTickCount
+            'tickstart = GetTickCount
             'Call AppendLogFile("GetFileSize, VirtualFilePathPage=" & VirtualFilePathPage)
             '
             hint = "2"
@@ -2331,7 +2280,7 @@ ErrorTrap:
                 Filename = LCase(Mid(VirtualFilePathPage, SlashPosition + 1))
                 Pathname = Mid(VirtualFilePathPage, 1, SlashPosition - 1)
             End If
-            FileDescriptor = Main.GetFileList(Pathname)
+            FileDescriptor = main.GetFileList(Pathname)
             hint = "3"
             If FileDescriptor = "" Then
                 'Call AppendLogFile("GetFileSize, descriptor is blank")
@@ -2354,11 +2303,6 @@ ErrorTrap:
                 Next
                 hint = "6"
             End If
-            'Call AppendLogFile("GetFileSize, exit, filesize=" & GetFileSize)
-            '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetFileSize, hint=" & hint)
         End Function
         '
         '
@@ -2414,24 +2358,6 @@ ErrorTrap:
             '        End If
             '    End If
             '
-            Exit Function
-ErrorTrap:
-            Call HandleRLTrapError("GetFileTypeID, hint=" & hint)
         End Function
-        '
-        '
-        '
-        Private Sub HandleRLTrapError(cp As CPBaseClass, MethodName As String, Optional ignore0 As String)
-            Main = Nothing
-            Call HandleError("ResourceLibrary", MethodName, Err.Number, Err.Source, Err.Description, True, False)
-        End Sub
-        '
-        '
-        '
-        Private Sub HandleRLInternalError(cp As CPBaseClass, MethodName As String, ErrDescription As String)
-            Call Err.Raise(KmaErrorInternal, App.EXEName, ErrDescription)
-        End Sub
-
-        '
     End Class
 End Namespace

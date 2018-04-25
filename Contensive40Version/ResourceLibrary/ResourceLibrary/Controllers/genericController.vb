@@ -96,7 +96,14 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
             Return cp.Db.EncodeSQLText(src)
         End Function
         '
-        Public Shared Function htmlButton(cp As CPBaseClass, value As String, Optional htmlClass As String = "", Optional htmlId As String = "", Optional onClick As String = "") As String
+        Public Shared Function htmlDiv(innerHtml As String, Optional htmlClass As String = "", Optional htmlId As String = "") As String
+            Dim result As String = "<div "
+            result += If(String.IsNullOrEmpty(htmlClass), "", " class=""" & htmlClass & """")
+            result += If(String.IsNullOrEmpty(htmlId), "", " id=""" & htmlId & """")
+            Return result & ">" & innerHtml & "</div>"
+        End Function
+        '
+        Public Shared Function htmlButton(value As String, Optional htmlClass As String = "", Optional htmlId As String = "", Optional onClick As String = "") As String
             Dim result As String = "<button name=""name"" value=""" & value & """"
             result += If(String.IsNullOrEmpty(htmlClass), "", " class=""" & htmlClass & """")
             result += If(String.IsNullOrEmpty(htmlId), "", " id=""" & htmlId & """")
@@ -104,15 +111,15 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
             Return result & ">"
         End Function
         '
-        Public Shared Function htmlHidden(cp As CPBaseClass, htmlName As String, htmlValue As String, Optional htmlClass As String = "", Optional htmlId As String = "") As String
+        Public Shared Function htmlHidden(htmlName As String, htmlValue As String, Optional htmlClass As String = "", Optional htmlId As String = "") As String
             Dim result As String = "<hidden name=""" & htmlName & """ value=""" & htmlValue & """"
             result += If(String.IsNullOrEmpty(htmlClass), "", " class=""" & htmlClass & """")
             result += If(String.IsNullOrEmpty(htmlId), "", " id=""" & htmlId & """")
             Return result & ">"
         End Function
         '
-        Public Shared Function htmlHidden(cp As CPBaseClass, htmlName As String, htmlValue As Integer, Optional htmlClass As String = "", Optional htmlId As String = "") As String
-            Return htmlHidden(cp, htmlName, htmlValue.ToString(), htmlClass, htmlId)
+        Public Shared Function htmlHidden(htmlName As String, htmlValue As Integer, Optional htmlClass As String = "", Optional htmlId As String = "") As String
+            Return htmlHidden(htmlName, htmlValue.ToString(), htmlClass, htmlId)
         End Function
         '
         Public Shared Function adminUrl(cp As CPBaseClass) As String
@@ -122,6 +129,44 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
         Public Shared Function kmaEncodeURL(cp As CPBaseClass, url As String) As String
             Return cp.Utils.EncodeUrl(url)
         End Function
+        '
+        Public Shared Function Main_GetPanel(src As String) As String
+            Return htmlDiv(src)
+        End Function
+        '
+        Public Shared Function kmaEncodeJavascript(cp As CPBaseClass, src As String) As String
+            Return cp.Utils.EncodeJavascript(src)
+        End Function
+        '
+        Public Shared Function kmaAddSpan(innerHtml As String, htmlClass As String) As String
+            Return "<span class=""" & htmlClass & """>" & innerHtml & "</span>"
+        End Function
+        '
+        Public Shared Function Main_GetFormInputCheckBox(htmlName As String, isChecked As Boolean) As String
+            Return "<input type=checkbox name=""" & htmlName & """ value=1 " & If(isChecked, " checked", "") & ">"
+        End Function
+        '
+        Public Shared Function Main_GetPanelInput(innerHtml As String) As String
+            Return htmlDiv(innerHtml)
+        End Function
+        '
+        Public Shared Function KmaEncodeMissingText(src As String, Optional ignore As String = "") As String
+            Return src
+        End Function
+        '
+        Public Shared Function KmaEncodeMissingBoolean(src As Boolean, Optional ignore As Boolean = False) As Boolean
+            Return src
+        End Function
+        '
+        Public Shared Function KmaEncodeMissingBoolean(src As Boolean, Optional ignore As String = "") As Boolean
+            Return src
+        End Function
+        '
+        Public Shared Function kmaEncodeHTML(cp As CPBaseClass, src As String) As String
+            Return cp.Utils.EncodeHTML(src)
+        End Function
+        '
+
     End Class
 End Namespace
 

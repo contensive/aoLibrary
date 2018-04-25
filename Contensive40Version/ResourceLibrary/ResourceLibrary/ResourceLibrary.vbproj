@@ -91,7 +91,8 @@
     <Compile Include="Models\DbModels\LibraryFileTypeModel.vb" />
     <Compile Include="Models\DbModels\LibraryFolderModel.vb" />
     <Compile Include="Models\DbModels\LibraryFolderRuleModel.vb" />
-    <Compile Include="Views\addonClass.vb" />
+    <Compile Include="Views\menuTreeClass.vb" />
+    <Compile Include="Views\libraryClass.vb" />
     <Compile Include="Models\DbModels\DataSourceModel.vb" />
     <Compile Include="Models\DbModels\TableModel.vb" />
     <Compile Include="Models\DbModels\ContentModel.vb" />
@@ -218,6 +219,12 @@
   <ItemGroup>
     <Content Include="Models\DbModels\modelData.txt" />
     <Content Include="Resources\sampleSql.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\vbConversion\vbConversion.vbproj">
+      <Project>{baeb82b7-4dc1-463f-b44c-5ecbd6a8bfd0}</Project>
+      <Name>vbConversion</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
