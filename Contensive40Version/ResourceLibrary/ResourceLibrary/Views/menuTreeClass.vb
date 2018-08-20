@@ -16,7 +16,7 @@ Namespace Contensive.Addons.ResourceLibrary
         Private cp As CPBaseClass
         Private main As vbConversion.Contensive.VbConversion.MainClass
 
-        Private Sub New(cp As CPBaseClass)
+        Friend Sub New(cp As CPBaseClass)
             Me.cp = cp
             main = New MainClass(cp)
             EntryIndexName = New FastIndex5Class

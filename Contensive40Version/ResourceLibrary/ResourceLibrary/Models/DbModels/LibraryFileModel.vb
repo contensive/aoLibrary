@@ -27,7 +27,7 @@ Namespace Contensive.Addons.ResourceLibrary.Models     '<------ set namespace
         Public Property Filename As fieldCdnFile
         Public Property FileSize As Integer
         Public Property FileTypeID As Integer
-        Public Property FolderID As Integer
+        Public Property id As Integer
         Public Property Height As String
         Public Property Width As String
 

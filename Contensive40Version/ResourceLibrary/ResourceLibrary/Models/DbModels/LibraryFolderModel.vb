@@ -103,6 +103,52 @@ Namespace Contensive.Addons.ResourceLibrary.Models     '<------ set namespace
         Public Function Clone() As Object Implements ICloneable.Clone
             Return Me.MemberwiseClone()
         End Function
+        ''' <summary>
+        ''' Return a list of folders
+        ''' </summary>
+        ''' <param name="cp"></param>
+        ''' <param name="FolderID">The id of the folder</param>
+        ''' <returns></returns>
+        Public Shared Function AllowFolderAccess(cp As CPBaseClass, FolderID As Integer, ParentID As Integer) As List(Of LibraryFolderModel)
+            Dim result As New List(Of LibraryFolderModel)
+            Try
+                Dim SQL = "select top 1 *" _
+                      & " from ccMemberRules M,ccLibraryFolderRules R" _
+                      & " where M.MemberID=" & cp.User.Id _
+                      & " and R.FolderID=" & FolderID _
+                      & " and M.GroupID=R.GroupID" _
+                      & " and R.Active<>0" _
+                      & " and M.Active<>0" _
+                      & " and ((M.DateExpires is null)or(M.DateExpires>" & cp.Db.EncodeSQLDate(Now) & "))"
+                result = createList(cp, "(FolderID in (" & SQL & "))")
+            Catch ex As Exception
+                cp.Site.ErrorReport(ex)
+            End Try
+            Return result
+        End Function
+        '
+        ''' <summary>
+        ''' Return a list of folders
+        ''' </summary>
+        ''' <param name="cp"></param>
+        ''' <returns></returns>
+        Public Shared Function LoadFolders_returnTopFolderId(cp As CPBaseClass, topFolderPath As String) As List(Of LibraryFolderModel)
+            Dim result As New List(Of LibraryFolderModel)
+            Try
+                Dim SQL As String = "select Distinct" _
+                    & " F.ID" _
+                    & " ,F.ParentID" _
+                    & " ,F.Name" _
+                    & " ,(select top 1 ID from ccMemberRules where ccMemberRules.MemberID=" & cp.User.Id & " and ccMemberRules.GroupID=FR.GroupID) as Allowed" _
+                    & " from (cclibraryfolders F left join ccLibraryFolderRules FR on FR.FolderID=F.ID)" _
+                    & " where (f.active<>0)" _
+                    & " order by f.name"
+                result = createList(cp, "(FolderID in (" & SQL & "))")
+            Catch ex As Exception
+                cp.Site.ErrorReport(ex)
+            End Try
+            Return result
+        End Function
 
     End Class
 End Namespace
