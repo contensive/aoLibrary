@@ -13,9 +13,9 @@ Namespace Contensive.Addons.ResourceLibrary
         '
         ' -- sample
         Public Const RequestNameButton As String = "button"
-        Public Const RequestNameLibraryUpload As String = "upload"
-        Public Const RequestNameLibraryName As String = "name"
-        Public Const RequestNameLibraryDescription As String = "description"
+        Public Const RequestNameLibraryUpload As String = "LibraryUpload"
+        Public Const RequestNameLibraryName As String = "LibraryName"
+        Public Const RequestNameLibraryDescription As String = "LibraryDescription"
         Public Const xxxxx As String = "xxxx"
         '
         ' -- errors for resultErrList

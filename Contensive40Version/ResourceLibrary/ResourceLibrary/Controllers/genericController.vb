@@ -112,7 +112,7 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
         End Function
         '
         Public Shared Function htmlHidden(htmlName As String, htmlValue As String, Optional htmlClass As String = "", Optional htmlId As String = "") As String
-            Dim result As String = "<hidden name=""" & htmlName & """ value=""" & htmlValue & """"
+            Dim result As String = "<input type=hidden name=""" & htmlName & """ value=""" & htmlValue & """"
             result += If(String.IsNullOrEmpty(htmlClass), "", " class=""" & htmlClass & """")
             result += If(String.IsNullOrEmpty(htmlId), "", " id=""" & htmlId & """")
             Return result & ">"

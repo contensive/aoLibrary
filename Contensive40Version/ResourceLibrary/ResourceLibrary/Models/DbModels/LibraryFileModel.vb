@@ -24,13 +24,13 @@ Namespace Contensive.Addons.ResourceLibrary.Models     '<------ set namespace
         Public Property AltText As String
         Public Property Clicks As Integer
         Public Property Description As String
-        Public Property Filename As fieldCdnFile
+        Public Property Filename As String
         Public Property FileSize As Integer
         Public Property FileTypeID As Integer
-        Public Property id As Integer
+        'Public Property id As Integer
         Public Property Height As String
         Public Property Width As String
-
+        Public Property FolderID As Integer
         '
         '====================================================================================================
         Public Overloads Shared Function add(cp As CPBaseClass) As LibraryFileModel

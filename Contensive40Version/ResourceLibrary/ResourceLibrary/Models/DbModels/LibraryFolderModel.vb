@@ -132,23 +132,23 @@ Namespace Contensive.Addons.ResourceLibrary.Models     '<------ set namespace
         ''' </summary>
         ''' <param name="cp"></param>
         ''' <returns></returns>
-        Public Shared Function LoadFolders_returnTopFolderId(cp As CPBaseClass, topFolderPath As String) As List(Of LibraryFolderModel)
-            Dim result As New List(Of LibraryFolderModel)
-            Try
-                Dim SQL As String = "select Distinct" _
-                    & " F.ID" _
-                    & " ,F.ParentID" _
-                    & " ,F.Name" _
-                    & " ,(select top 1 ID from ccMemberRules where ccMemberRules.MemberID=" & cp.User.Id & " and ccMemberRules.GroupID=FR.GroupID) as Allowed" _
-                    & " from (cclibraryfolders F left join ccLibraryFolderRules FR on FR.FolderID=F.ID)" _
-                    & " where (f.active<>0)" _
-                    & " order by f.name"
-                result = createList(cp, "(FolderID in (" & SQL & "))")
-            Catch ex As Exception
-                cp.Site.ErrorReport(ex)
-            End Try
-            Return result
-        End Function
+        'Public Shared Function LoadFolders_returnTopFolderId(cp As CPBaseClass, topFolderPath As String) As List(Of LibraryFolderModel)
+        '    Dim result As New List(Of LibraryFolderModel)
+        '    Try
+        '        Dim SQL As String = "select Distinct" _
+        '            & " F.ID" _
+        '            & " ,F.ParentID" _
+        '            & " ,F.Name" _
+        '            & " ,(select top 1 ID from ccMemberRules where ccMemberRules.MemberID=" & cp.User.Id & " and ccMemberRules.GroupID=FR.GroupID) as Allowed" _
+        '            & " from (cclibraryfolders F left join ccLibraryFolderRules FR on FR.FolderID=F.ID)" _
+        '            & " where (f.active<>0)" _
+        '            & " order by f.name"
+        '        result = createList(cp, "(FolderID in (" & SQL & "))")
+        '    Catch ex As Exception
+        '        cp.Site.ErrorReport(ex)
+        '    End Try
+        '    Return result
+        'End Function
 
     End Class
 End Namespace

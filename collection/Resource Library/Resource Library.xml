@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<Collection name="Resource Library" guid="{F36C7051-F382-4558-8DBF-091F74C26C83}" system="Yes" updatable="Yes" blockNavigatorNode="No">
+	<HelpLink>http://support.contensive.com/Resource-Library</HelpLink>
+	<Help></Help>
+	<Addon name="Resource Library" guid="{564EF3F5-9673-4212-A692-0942DD51FF1A}" type="Tool">
+		<Copy></Copy>
+		<CopyText></CopyText>
+		<ActiveXProgramID></ActiveXProgramID>
+		<DotNetClass><![CDATA[Contensive.Addons.ResourceLibrary.Views.libraryClass]]></DotNetClass>
+		<ArgumentList><![CDATA[RootFolderName
+AllowGroupAdd=Yes[Yes|No]
+AllowSelectResource=No[Yes|No]
+SelectResourceEditorObjectName
+SelectLinkObjectName
+Block Folder Navigation=No[Yes|No]
+]]></ArgumentList>
+		<AsAjax>No</AsAjax>
+		<Filter>No</Filter>
+		<Help><![CDATA[<p>The resource library is a convenient place to store files used through the site. It can be accessed several ways:</p><ul><li>From the admin site navigator under Manage Content. Use the resource library from here to upload resources and manage folders</li><li>While editing other content such as a page, import an image from the resource library by clicking the image tool then the folder tool.</li><li>While editing other content, create a download from the resource library by clicking the download tool.</li><li>While editing other content, create a link to resource by highlighting text and clicking the link tool, then the folder icon.</li><li>The Resource Library can be dropped on any public page to create a public file sharing repository.</li></ul><p>Folder access and permissions</p><ul><li>Administrators have full access to edit files and folders, upload and delete files, and create and delete folders.<br></li><li>When using the resource library to provide resources for the wysiwyg editor, content managers can access and use all resource library files and folders.</li><li>Content managers can be given permission to upload or delete files, and add or delete folders within a specified folder. These permissions are controlled with group access through the folder record.<br></li></ul><p><br></p>]]></Help>
+		<HelpLink></HelpLink>
+		<Icon Link="" width="0" height="0" sprites="0" />
+		<InIframe>No</InIframe>
+		<BlockEditTools>No</BlockEditTools>
+		<FormXML></FormXML>
+		<IsInline>No</IsInline>
+		<JavascriptOnLoad></JavascriptOnLoad>
+		<JavascriptInHead></JavascriptInHead>
+		<JavascriptBodyEnd></JavascriptBodyEnd>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
+		<Content>Yes</Content>
+		<Template>No</Template>
+		<Email>No</Email>
+		<Admin>Yes</Admin>
+		<OnPageEndEvent>No</OnPageEndEvent>
+		<OnPageStartEvent>No</OnPageStartEvent>
+		<OnBodyStart>No</OnBodyStart>
+		<OnBodyEnd>No</OnBodyEnd>
+		<RemoteMethod>No</RemoteMethod>
+		<ProcessInterval>0</ProcessInterval>
+		<PageTitle></PageTitle>
+		<RemoteAssetLink></RemoteAssetLink>
+		<Styles><![CDATA[.ccLibrary {}
+.ccLibrary td.nav { 
+	padding:10px; 
+	vertical-align:top;
+	background-color:white;
+	width:140px;
+	text-align:left;
+}
+.ccLibrary td.navBorder { 
+	padding:0;
+	vertical-align:top;
+	background-color:
+	white;width:5px;
+}
+.ccLibrary td.content { 
+	padding:0;
+	background-color:white;
+	width:100%;
+	vertical-align:top;
+	text-align:left; 
+}
+.ccLibrary td.content tr.listRow td { 
+	vertical-align:middle;
+	padding: 2px 2px 2px 2px;
+	text-align:left;
+	border-top: 1px solid #C0C0C0; 
+}
+.ccLibrary td.content tr.listRow td { vertical-align:middle; }
+.ccLibrary td.content tr.listRow td.left { }
+.ccLibrary td.content tr.listRow td.center { text-align:center; }
+.ccLibrary td.content tr.listRow td.right { text-align:right; }
+]]></Styles>
+		<StylesLinkHref></StylesLinkHref>
+		<Styles><![CDATA[.ccLibrary {}
+.ccLibrary td.nav { 
+	padding:10px; 
+	vertical-align:top;
+	background-color:white;
+	width:140px;
+	text-align:left;
+}
+.ccLibrary td.navBorder { 
+	padding:0;
+	vertical-align:top;
+	background-color:
+	white;width:5px;
+}
+.ccLibrary td.content { 
+	padding:0;
+	background-color:white;
+	width:100%;
+	vertical-align:top;
+	text-align:left; 
+}
+.ccLibrary td.content tr.listRow td { 
+	vertical-align:middle;
+	padding: 2px 2px 2px 2px;
+	text-align:left;
+	border-top: 1px solid #C0C0C0; 
+}
+.ccLibrary td.content tr.listRow td { vertical-align:middle; }
+.ccLibrary td.content tr.listRow td.left { }
+.ccLibrary td.content tr.listRow td.center { text-align:center; }
+.ccLibrary td.content tr.listRow td.right { text-align:right; }
+]]></Styles>
+		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+	</Addon>
+	<Resource name="bullet.gif" type="www" path="resourcelibrary" />
+	<Resource name="bulletround.gif" type="www" path="resourcelibrary" />
+	<Resource name="bulletround2.gif" type="www" path="resourcelibrary" />
+	<Resource name="bulletsquare.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconaudio.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconaudiodownload.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconaudiomedia.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconcontentadd.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconcontentedit.gif" type="www" path="resourcelibrary" />
+	<Resource name="icondefault.gif" type="www" path="resourcelibrary" />
+	<Resource name="icondefaultdownload.gif" type="www" path="resourcelibrary" />
+	<Resource name="icondefaultmedia.gif" type="www" path="resourcelibrary" />
+	<Resource name="icondownload.gif" type="www" path="resourcelibrary" />
+	<Resource name="icondownload2.gif" type="www" path="resourcelibrary" />
+	<Resource name="icondownload3.gif" type="www" path="resourcelibrary" />
+	<Resource name="icondownload_old.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconedgeclose.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconedgeopen.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconedit.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconemail.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconemailpage2.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconfile.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconfileadd.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconfileedit.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconflash.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconflashdownload.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconfolderadd.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconfolderadd2.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconfolderclosed.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconfolderedit.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconfolderopen.gif" type="www" path="resourcelibrary" />
+	<Resource name="icongif.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconhelp.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconhtml.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconhtmlviewer.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconimage.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconimage2.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconimage2download.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconimage2media.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconimageplace.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconimageplace2322.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconimagesettings.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconimage_old.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconinstanceedit.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconjpeg.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconpage1818.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconpagebroken1818.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconpdf.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconpdfdownload.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconppt.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconpptdownload.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconpreview.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconprint.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconprintversion2.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconsitestylesedit.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconsmallcomment.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconsmallemail.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconsmallprinter.gif" type="www" path="resourcelibrary" />
+	<Resource name="icontext.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconupload.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconvideo.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconvideo2322.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconvideodownload.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconvideomedia.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconview.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconword.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconworddoc.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconworddownload.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconxls.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconxlsdownload.gif" type="www" path="resourcelibrary" />
+	<Resource name="iconxml-25x13.gif" type="www" path="resourcelibrary" />
+	<Resource name="resourcelink1616.gif" type="www" path="resourcelibrary" />
+	<Resource name="spacer.gif" type="www" path="resourcelibrary" />
+	<Resource name="libraryconfig.xml" type="content" path="resourcelibrary" />
+	<Resource name="aolibrary.dll" type="executable" path="" />
+</Collection>

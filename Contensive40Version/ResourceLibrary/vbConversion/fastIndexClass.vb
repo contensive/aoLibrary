@@ -6,22 +6,22 @@ Imports Contensive.BaseClasses
 Namespace Contensive.VbConversion
     Public Class fastIndexClass
         '
-        ' new serializable and deserialize
-        '   declare a private instance of a class that holds everything
-        '   keyPtrIndex uses the class
-        '   call serialize on keyPtrIndex to json serialize the storage object and return the string
-        '   call deserialise to populate the storage object from the argument
-        '
-        ' ----- Index Type - This structure is the basis for Element Indexing
-        '       Records are read into thier data structure, and keys(Key,ID,etc.) and pointers
-        '       are put in the KeyPointerArrays.
+        ' New serializable And deserialize
+        '   Declare a private instance of a class that holds everything()
+        '   keyPtrIndex uses the Class
+        '   Call serialize On keyPtrIndex To json serialize the storage Object And Return the String
+        '   Call deserialise To populate the storage Object from the argument
+
+        ' ----- Index Type - This structure Is the basis for Element Indexing
+        '       Records are read into thier data Structure, And keys(Key,ID,etc.) And pointers
+        '       are put In the KeyPointerArrays.
         '           AddIndex( Key, value )
-        '           BubbleSort( Index ) - sorts the index by the key field
+        '           'BubbleSort( Index ) - sorts the index by the key field
         '           GetIndexValue( index, Key ) - retrieves the pointer
-        '
-        ' These  GUIDs provide the COM identity for this class 
-        ' and its COM interfaces. If you change them, existing 
-        ' clients will no longer be able to access the class.
+
+        ' These  GUIDs provide the COM identity For this Class 
+        ' And its COM interfaces. If you change them, existing 
+        ' clients will no longer be able To access the Class.
         'Public Const ClassId As String = "BB8AFA32-1C0A-4CDB-BE3B-D9E6AA91A656"
         'Public Const InterfaceId As String = "353333D8-FB3B-4340-B8B6-C5547B46F5DF"
         'Public Const EventsId As String = "1407C7AD-08DF-44DB-898E-7B3CB9F86EB3"
