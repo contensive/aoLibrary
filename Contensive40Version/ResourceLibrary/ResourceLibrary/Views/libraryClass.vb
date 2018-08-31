@@ -531,10 +531,10 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                                                 Dim MoveFolderID As Integer = cp.Doc.GetInteger("Row" & Ptr & "FolderID")
                                                 Dim MoveFileID As Integer = cp.Doc.GetInteger("Row" & Ptr & "FileID")
                                                 If MoveFolderID <> 0 Then
-                                                    Call cp.Db.ExecuteSQL("default", "update ccLibraryFolders set ParentID=" & targetFolderId & " where ID=" & MoveFolderID)
+                                                    Call cp.Db.ExecuteSQL("update ccLibraryFolders set ParentID=" & targetFolderId & " where ID=" & MoveFolderID)
                                                     reloadFolderCache = True
                                                 ElseIf MoveFileID <> 0 Then
-                                                    Call cp.Db.ExecuteSQL("default", "update ccLibraryFiles set FolderID=" & targetFolderId & " where ID=" & MoveFileID)
+                                                    Call cp.Db.ExecuteSQL("update ccLibraryFiles set FolderID=" & targetFolderId & " where ID=" & MoveFileID)
                                                     reloadFolderCache = True
                                                 End If
                                             End If
@@ -618,7 +618,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
 
                                             Dim VirtualFilePath As String = Replace(VirtualFilePathPage, ImageFilename, "")
                                             libraryFile.Description = libraryDescription
-                                            libraryFile.folderId = currentFolderID
+                                            libraryFile.FolderID = currentFolderID
                                             cp.Html.ProcessInputFile(imageRequestName, VirtualFilePath)
 
                                             libraryFile.FileSize = GetFileSize(cp, cp.Site.PhysicalFilePath & libraryFile.name)
@@ -629,6 +629,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                                             libraryFile.name = libraryName
                                             libraryFile.Description = libraryDescription
                                             libraryFile.Filename = VirtualFilePath & ImageFilename
+                                            libraryFile.ModifiedDate = Date.Now
                                             libraryFile.save(cp)
 
                                             reloadFolderCache = True
