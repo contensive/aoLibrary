@@ -586,6 +586,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                                     hint = "400"
                                     Dim UploadCount As Integer = cp.Doc.GetInteger("LibraryUploadCount")
                                     Dim ImageFilename As String = ""
+                                    'Dim imagefileFolderId As Integer = cp.Doc.GetInteger("FolderID")
                                     For UploadPointer = 1 To UploadCount
                                         Dim imageRequestName As String = RequestNameLibraryUpload & "." & UploadPointer
                                         ImageFilename = cp.Doc.GetText(RequestNameLibraryUpload & "." & UploadPointer)
@@ -696,7 +697,9 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                         End If
                     End If
 
-                    result = result & genericController.htmlHidden("FolderID", currentFolderID) & ButtonBar
+                    'result = result & genericController.htmlHidden("FolderID", currentFolderID) 
+                    result = result & ButtonBar
+
                     Dim JumpSelect As String = ""
                     JumpSelect = GetJumpFolderPathSelect(cp, currentFolderID, topFolderPath)
                     result = result & "<div style=""padding:10px;"">" & GetParentFoldersLink(cp, topFolderPath, topFolderID, currentFolderID, currentFolderID, cp.Doc.RefreshQueryString, "") & "</div>"

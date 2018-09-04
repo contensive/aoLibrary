@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<Collection name="Resource Library" guid="{F36C7051-F382-4558-8DBF-091F74C26C83}" system="Yes" updatable="Yes" blockNavigatorNode="No">
+<Collection name="Resource Library" guid="{F36C7051-F382-4558-8DBF-091F74C26C83}" system="No" updatable="Yes" blockNavigatorNode="No">
 	<HelpLink>http://support.contensive.com/Resource-Library</HelpLink>
 	<Help></Help>
 	<Addon name="Resource Library" guid="{564EF3F5-9673-4212-A692-0942DD51FF1A}" type="Tool">
@@ -107,6 +107,8 @@ Block Folder Navigation=No[Yes|No]
 ]]></Styles>
 		<Scripting Language="" EntryPoint="" Timeout="5000"/>
 	</Addon>
+	<CDef Name="Library Files" guid="{5B6D7A49-77E0-4431-A36B-D22D67E9F790}" ></CDef>
+	<CDef Name="Library Folders" guid="{385B8D0B-1DEA-4A15-9073-E49EBD9AE3ED}" ></CDef>
 	<Resource name="bullet.gif" type="www" path="resourcelibrary" />
 	<Resource name="bulletround.gif" type="www" path="resourcelibrary" />
 	<Resource name="bulletround2.gif" type="www" path="resourcelibrary" />
