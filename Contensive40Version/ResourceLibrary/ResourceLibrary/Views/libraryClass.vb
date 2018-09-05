@@ -1216,8 +1216,16 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                 End If
                 '
                 If Not FileTypeFound Then
+                    If FilenameExt = "PNG" Then
+                        IsImage = True
+                    ElseIf FilenameExt = "JPG" Then
+                        IsImage = True
+                    ElseIf FilenameExt = "GIF" Then
+                        IsImage = True
+                    Else
+                        IsImage = False
+                    End If
                     FileTypeName = TestFileTYpe
-                    IsImage = False
                     IsVideo = False
                     IsFlash = False
                     Dim Mediafilename As String = ""
