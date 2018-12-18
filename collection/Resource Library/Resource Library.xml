@@ -182,6 +182,5 @@ Block Folder Navigation=No[Yes|No]
 	<Resource name="iconxml-25x13.gif" type="www" path="resourcelibrary" />
 	<Resource name="resourcelink1616.gif" type="www" path="resourcelibrary" />
 	<Resource name="spacer.gif" type="www" path="resourcelibrary" />
-	<Resource name="libraryconfig.xml" type="content" path="resourcelibrary" />
-	<Resource name="aolibrary.dll" type="executable" path="" />
+	<Resource name="libraryconfig.xml" type="content" path="resourcelibrary" />	
 </Collection>

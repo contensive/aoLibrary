@@ -1695,10 +1695,16 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     '
                 Else
                     For ParentPtr = 0 To UBound(folders)
-                        If folders(ParentPtr).FolderID = ParentID Then
-                            result = GetFolderPath(cp, ParentPtr, ChildIDList & "," & ParentID.ToString()) & "\" & result
-                            'GetFolderPath = GetFolderPath(ParentPtr, ChildIDList & "," & ParentID) & " > " & GetFolderPath
-                            Exit For
+                        '
+                        'todo Folder(parentPtr) throws a null ref this needs to be resolved
+                        If (folders(ParentPtr) Is Nothing) Then
+                            cp.Utils.AppendLogFile("getfolderPath=6b ******** parentPtr [" & ParentPtr & "]")
+                        Else
+                            If folders(ParentPtr).FolderID = ParentID Then
+                                result = GetFolderPath(cp, ParentPtr, ChildIDList & "," & ParentID) & "\" & result
+                                'GetFolderPath = GetFolderPath(ParentPtr, ChildIDList & "," & ParentID) & " > " & GetFolderPath
+                                Exit For
+                            End If
                         End If
                     Next
                 End If
