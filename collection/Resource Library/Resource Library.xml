@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<Collection name="Resource Library" guid="{F36C7051-F382-4558-8DBF-091F74C26C83}" system="No" updatable="Yes" blockNavigatorNode="No">
+<Collection name="Resource Library" guid="{f36c7051-f382-4558-8dbf-091f74c26c83}" system="No" updatable="Yes" blockNavigatorNode="No">
 	<HelpLink>http://support.contensive.com/Resource-Library</HelpLink>
 	<Help></Help>
 	<Addon name="Resource Library" guid="{564EF3F5-9673-4212-A692-0942DD51FF1A}" type="Tool">
@@ -16,18 +16,19 @@ Block Folder Navigation=No[Yes|No]
 ]]></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
-		<Help><![CDATA[<p>The resource library is a convenient place to store files used through the site. It can be accessed several ways:</p><ul><li>From the admin site navigator under Manage Content. Use the resource library from here to upload resources and manage folders</li><li>While editing other content such as a page, import an image from the resource library by clicking the image tool then the folder tool.</li><li>While editing other content, create a download from the resource library by clicking the download tool.</li><li>While editing other content, create a link to resource by highlighting text and clicking the link tool, then the folder icon.</li><li>The Resource Library can be dropped on any public page to create a public file sharing repository.</li></ul><p>Folder access and permissions</p><ul><li>Administrators have full access to edit files and folders, upload and delete files, and create and delete folders.<br></li><li>When using the resource library to provide resources for the wysiwyg editor, content managers can access and use all resource library files and folders.</li><li>Content managers can be given permission to upload or delete files, and add or delete folders within a specified folder. These permissions are controlled with group access through the folder record.<br></li></ul><p><br></p>]]></Help>
+		<Help><![CDATA[<p>The resource library is a convenient place to store files used through the site. It can be accessed several ways:</p><ul><li>From the admin site navigator under Manage Content. Use the resource library from here to upload resources and manage folders</li><li>While editing other content such as a page, import an image from the resource library by clicking the image tool then the folder tool.</li><li>While editing other content, create a download from the resource library by clicking the download tool.</li><li>While editing other content, create a link to resource by highlighting text and clicking the link tool, then the folder icon.</li><li>The Resource Library can be dropped on any public page to create a public file sharing repository.</li></ul><p>Folder access and permissions</p><ul><li>Administrators have full access to edit files and folders, upload and delete files, and create and delete folders.</li><li>When using the resource library to provide resources for the wysiwyg editor, content managers can access and use all resource library files and folders.</li><li>Content managers can be given permission to upload or delete files, and add or delete folders within a specified folder. These permissions are controlled with group access through the folder record.</li></ul>]]></Help>
 		<HelpLink></HelpLink>
 		<Icon Link="" width="0" height="0" sprites="0" />
 		<InIframe>No</InIframe>
 		<BlockEditTools>No</BlockEditTools>
 		<FormXML></FormXML>
 		<IsInline>No</IsInline>
-		<JavascriptOnLoad></JavascriptOnLoad>
 		<JavascriptInHead></JavascriptInHead>
-		<JavascriptBodyEnd></JavascriptBodyEnd>
-		<MetaDescription></MetaDescription>
-		<OtherHeadTags></OtherHeadTags>
+		<javascriptForceHead>No</javascriptForceHead>
+		<JSHeadScriptSrc></JSHeadScriptSrc>
+		<!-- deprecated --><JSBodyScriptSrc></JSBodyScriptSrc>
+		<!-- deprecated --><JavascriptBodyEnd></JavascriptBodyEnd>
+		<!-- deprecated --><JavascriptOnLoad></JavascriptOnLoad>
 		<Content>Yes</Content>
 		<Template>No</Template>
 		<Email>No</Email>
@@ -37,11 +38,14 @@ Block Folder Navigation=No[Yes|No]
 		<OnBodyStart>No</OnBodyStart>
 		<OnBodyEnd>No</OnBodyEnd>
 		<RemoteMethod>No</RemoteMethod>
+		<ProcessRunOnce>No</ProcessRunOnce>
 		<ProcessInterval>0</ProcessInterval>
+		<MetaDescription></MetaDescription>
+		<OtherHeadTags></OtherHeadTags>
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[.ccLibrary {}
-.ccLibrary td.nav { 
+.ccLibrary td.rlnav { 
 	padding:10px; 
 	vertical-align:top;
 	background-color:white;
@@ -72,40 +76,7 @@ Block Folder Navigation=No[Yes|No]
 .ccLibrary td.content tr.listRow td.center { text-align:center; }
 .ccLibrary td.content tr.listRow td.right { text-align:right; }
 ]]></Styles>
-		<StylesLinkHref></StylesLinkHref>
-		<Styles><![CDATA[.ccLibrary {}
-.ccLibrary td.nav { 
-	padding:10px; 
-	vertical-align:top;
-	background-color:white;
-	width:140px;
-	text-align:left;
-}
-.ccLibrary td.navBorder { 
-	padding:0;
-	vertical-align:top;
-	background-color:
-	white;width:5px;
-}
-.ccLibrary td.content { 
-	padding:0;
-	background-color:white;
-	width:100%;
-	vertical-align:top;
-	text-align:left; 
-}
-.ccLibrary td.content tr.listRow td { 
-	vertical-align:middle;
-	padding: 2px 2px 2px 2px;
-	text-align:left;
-	border-top: 1px solid #C0C0C0; 
-}
-.ccLibrary td.content tr.listRow td { vertical-align:middle; }
-.ccLibrary td.content tr.listRow td.left { }
-.ccLibrary td.content tr.listRow td.center { text-align:center; }
-.ccLibrary td.content tr.listRow td.right { text-align:right; }
-]]></Styles>
-		<Scripting Language="" EntryPoint="" Timeout="5000"/>
+		<Scripting Language="VBScript" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<CDef Name="Library Files" guid="{5B6D7A49-77E0-4431-A36B-D22D67E9F790}" ></CDef>
 	<CDef Name="Library Folders" guid="{385B8D0B-1DEA-4A15-9073-E49EBD9AE3ED}" ></CDef>
@@ -182,5 +153,5 @@ Block Folder Navigation=No[Yes|No]
 	<Resource name="iconxml-25x13.gif" type="www" path="resourcelibrary" />
 	<Resource name="resourcelink1616.gif" type="www" path="resourcelibrary" />
 	<Resource name="spacer.gif" type="www" path="resourcelibrary" />
-	<Resource name="libraryconfig.xml" type="content" path="resourcelibrary" />	
+	<Resource name="aoLibrary.dll" type="executable" path="" />
 </Collection>

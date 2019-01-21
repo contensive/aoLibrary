@@ -810,7 +810,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                                 ModifiedDate = folder.DateAdded
                             End If
                             Dim ChildFolderID As Integer
-                            FormDetails = FormDetails & GetFormRow_ChildFolders(cp, IconFolderClosed, IconLink, "", ChildFolderName, "", ModifiedDate, RowCount, EditLink, folder.Description, "CHILD", "", "", "", "", "", 0, ChildFolderID, AllowEditColumn, AllowPlaceColumn, AllowSelectColumn)
+                            FormDetails = FormDetails & GetFormRow_ChildFolders(cp, IconFolderClosed, IconLink, "", ChildFolderName, "", ModifiedDate, RowCount, EditLink, folder.Description, "CHILD", "", "", "", "", "", 0, folder.id, AllowEditColumn, AllowPlaceColumn, AllowSelectColumn)
                             RowCount = RowCount + 1
                         Next
 
@@ -979,7 +979,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     ' Create the FormFolders
                     '
                     Dim FormFolders As String = GetRLNav(cp, currentFolderID, topFolderPath, topFolderID)
-                    FormFolders = "<div class=""nav"">" & FormFolders & "</div>"
+                    FormFolders = "<div class=""rlnav"">" & FormFolders & "</div>"
                     'FormFolders = Main.GetPanelRev(FormFolders)
                     '
                     ' Assemble the form
@@ -1397,21 +1397,21 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     '
                     'If IsContentManagerFolders Then
                     FolderCell = "" _
-                    & "<table id=""AddFolderTable"" border=""0"" cellpadding=""0"" cellspacing=""1"" width=""100%"">" _
+                    & "<table id=""AddFolderTable"" border=""0"" cellpadding=""10"" cellspacing=""1"" width=""100%"">" _
                     & "<tr>"
                     FolderCell = FolderCell _
                     & "<td class=""left"" align=""left"" colspan=2>" & kmaAddSpan("Add Folder&nbsp;", "ccAdminSmall") & "<BR><img src=""/ResourceLibrary/spacer.gif"" width=""230"" height=""1""></td>" _
                     & "<td class=""left"" Width=""99%"" align=""left"">" & kmaAddSpan("Description&nbsp;", "ccAdminSmall") & "<BR><img src=""/ResourceLibrary/spacer.gif"" width=""100"" height=""1""></td>" _
                     & "</tr><tr>" _
-                    & "<td class=""left"" Width=""30"" align=""right"">1&nbsp;<BR><img src=/ResourceLibrary/spacer.gif width=30 height=1></td>" _
+                    & "<td class=""left"" Width=""30"" align=""right"">1&nbsp;<img src=/ResourceLibrary/spacer.gif width=30 height=1></td>" _
                     & "<td class=""left"" align=""left""><INPUT TYPE=""Text"" NAME=""FolderName.1"" SIZE=""30""></td>" _
                     & "<td class=""left"" align=""left""><INPUT TYPE=""Text"" NAME=""FolderDescription.1"" SIZE=""40""></td>" _
                     & "</tr>"
                     FolderCell = FolderCell _
                     & "</Table>" _
-                    & "<table border=""0"" cellpadding=""0"" cellspacing=""1"" width=""100%"">" _
+                    & "<table border=""0"" cellpadding=""10"" cellspacing=""1"" width=""100%"">" _
                     & "<tr><td class=""left"" Width=""30""><img src=/ResourceLibrary/spacer.gif width=30 height=1></td><td align=""left""><a href=""#"" onClick=""InsertFolderRow(); return false;"">+ Add more folders</a></td></tr>" _
-                    & "</Table>" & htmlHidden("AddFolderCount", 1, "AddFolderCount")
+                    & "</Table>" & htmlHidden("AddFolderCount", 1, "", "AddFolderCount")
                 End If
                 Dim FileCell As String = ""
                 If hasModifyAccess Then
@@ -1434,13 +1434,13 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     & "</Table>" _
                     & "<table border=""0"" cellpadding=""0"" cellspacing=""1"" width=""100%"">" _
                     & "<tr><td class=""left"" Width=""30""><img src=/ResourceLibrary/spacer.gif width=30 height=1></td><td class=""left"" align=""left""><a href=""#"" onClick=""InsertUploadRow(); return false;"">+ Add more files</a></td></tr>" _
-                    & "</Table>" & htmlHidden("LibraryUploadCount", 1, "LibraryUploadCount")
+                    & "</Table>" & htmlHidden("LibraryUploadCount", 1, "", "LibraryUploadCount")
                 End If
                 '
                 '
                 '
                 GetFormRow_Options = "" _
-                    & "<img src=""/ResourceLibrary/spacer.gif"" width=""1"" height=""5"">" _
+                    & "<div  style=""margin-left:10px;""><img src=""/ResourceLibrary/spacer.gif"" width=""1"" height=""5"">" _
                     & "<BR>" & cp.Html.CheckBox("AllowThumbnails", cp.User.GetBoolean("LibraryAllowthumbnails", "0")) & "&nbsp;Display Thumbnails"
                 If cp.User.IsAdmin Or hasModifyAccess Then
                     '
@@ -2163,7 +2163,8 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     Pathname = Mid(VirtualFilePathPage, 1, SlashPosition - 1)
                 End If
                 '
-                Dim FileDescriptor As String = cp.File.fileList(Pathname)
+                Dim FileDescriptor As String = ""
+                FileDescriptor = cp.File.fileList(Pathname)
                 hint = "3"
                 If FileDescriptor = "" Then
                     'Call AppendLogFile("GetFileSize, descriptor is blank")
@@ -2174,7 +2175,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     hint = "5"
                     Dim Ptr As Integer
                     For Ptr = 0 To UBound(FileSplit2)
-                        Dim FileParts() As String = Split(FileSplit2(Ptr), ",")
+                        Dim FileParts() As String = Split(FileSplit2(Ptr), vbTab)
                         If UBound(FileParts) <= 5 Then
                             'Call AppendLogFile("GetFileSize, FileDescriptor row [" & Ptr * "] has <6 parts, descrriptor=" & FileDescriptor)
                         Else
@@ -2191,7 +2192,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)
             End Try
-            Return result
+            Return GetFileSize
         End Function
         '
         '
