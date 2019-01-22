@@ -3,6 +3,7 @@
 Option Explicit On
 
 Imports System.Net
+Imports System.Web
 Imports Contensive.Addons.ResourceLibrary.Controllers
 Imports Contensive.BaseClasses
 Imports Contensive.Addons.ResourceLibrary.Controllers.genericController
@@ -1048,7 +1049,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     'Else
                     '    result = result & CellStart & "&nbsp;" & CellEnd
                 End If
-                result = result & CellStart & "<A href=""?" & IconLink & """>" & IconFolderOpen & "</A>" & CellEnd
+                result = result & CellStart & "<A href=""?" & cp.Utils.EncodeUrl(IconLink) & """>" & IconFolderOpen & "</A>" & CellEnd
                 result = result & CellStart & Name & CellEnd
                 result = result & CellStart & Description & CellEnd
                 result = result & CellStart & "&nbsp;" & CellEnd
@@ -1329,6 +1330,8 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                         End If
                     End If
                 End If
+                NameLink = cp.Utils.DecodeUrl(NameLink)
+
                 GetFormRow_Files = GetFormRow_Files & CellStartCenter & IconIMG & CellEnd
                 GetFormRow_Files = GetFormRow_Files & CellStart & "<a href=""" & NameLink & """ target=""_blank"">" & Name & "</A>" & CellEnd
                 '
@@ -2163,7 +2166,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     Pathname = Mid(VirtualFilePathPage, 1, SlashPosition - 1)
                 End If
                 '
-                Dim FileDescriptor As String = ""
+                Dim FileDescriptor As String
                 FileDescriptor = cp.File.fileList(Pathname)
                 hint = "3"
                 If FileDescriptor = "" Then
