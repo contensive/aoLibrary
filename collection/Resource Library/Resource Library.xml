@@ -16,7 +16,9 @@ Block Folder Navigation=No[Yes|No]
 ]]></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
-		<Help><![CDATA[<p>The resource library is a convenient place to store files used through the site. It can be accessed several ways:</p><ul><li>From the admin site navigator under Manage Content. Use the resource library from here to upload resources and manage folders</li><li>While editing other content such as a page, import an image from the resource library by clicking the image tool then the folder tool.</li><li>While editing other content, create a download from the resource library by clicking the download tool.</li><li>While editing other content, create a link to resource by highlighting text and clicking the link tool, then the folder icon.</li><li>The Resource Library can be dropped on any public page to create a public file sharing repository.</li></ul><p>Folder access and permissions</p><ul><li>Administrators have full access to edit files and folders, upload and delete files, and create and delete folders.</li><li>When using the resource library to provide resources for the wysiwyg editor, content managers can access and use all resource library files and folders.</li><li>Content managers can be given permission to upload or delete files, and add or delete folders within a specified folder. These permissions are controlled with group access through the folder record.</li></ul>]]></Help>
+		<Help><![CDATA[<p>The resource library is a convenient place to store files used through the site. It can be accessed several ways:</p><ul>
+<li>From the admin site navigator under Manage Content. Use the resource library from here to upload resources and manage folders</li><li>While editing other content such as a page, import an image from the resource library by clicking the image tool then the folder tool.</li><li>While editing other content, create a download from the resource library by clicking the download tool.</li><li>While editing other content, create a link to resource by highlighting text and clicking the link tool, then the folder icon.</li><li>The Resource Library can be dropped on any public page to create a public file sharing repository.</li></ul><p>Folder access and permissions</p><ul>
+<li>Administrators have full access to edit files and folders, upload and delete files, and create and delete folders.</li><li>When using the resource library to provide resources for the wysiwyg editor, content managers can access and use all resource library files and folders.</li><li>Content managers can be given permission to upload or delete files, and add or delete folders within a specified folder. These permissions are controlled with group access through the folder record.</li></ul>]]></Help>
 		<HelpLink></HelpLink>
 		<Icon Link="" width="0" height="0" sprites="0" />
 		<InIframe>No</InIframe>
@@ -76,6 +78,7 @@ Block Folder Navigation=No[Yes|No]
 .ccLibrary td.content tr.listRow td.center { text-align:center; }
 .ccLibrary td.content tr.listRow td.right { text-align:right; }
 ]]></Styles>
+		<styleslinkhref><![CDATA[/resourcelibrary/mktree.css]]></styleslinkhref>
 		<Scripting Language="VBScript" EntryPoint="" Timeout="5000"/>
 	</Addon>
 	<CDef Name="Library Files" guid="{5B6D7A49-77E0-4431-A36B-D22D67E9F790}" ></CDef>
@@ -153,5 +156,11 @@ Block Folder Navigation=No[Yes|No]
 	<Resource name="iconxml-25x13.gif" type="www" path="resourcelibrary" />
 	<Resource name="resourcelink1616.gif" type="www" path="resourcelibrary" />
 	<Resource name="spacer.gif" type="www" path="resourcelibrary" />
-	<Resource name="aoLibrary.dll" type="executable" path="" />
+	<Resource name="mktree.js" type="www" path="resourcelibrary" />
+	<Resource name="mktree.css" type="www" path="resourcelibrary" />
+	<Resource name="box.gif" type="www" path="resourcelibrary" />
+	<Resource name="minus.gif" type="www" path="resourcelibrary" />
+	<Resource name="plus.gif" type="www" path="resourcelibrary" />
+	<Resource name="pointer.gif" type="www" path="resourcelibrary" />
+	<Resource name="LibraryConfig.xml" type="content" path="resourcelibrary" />
 </Collection>
