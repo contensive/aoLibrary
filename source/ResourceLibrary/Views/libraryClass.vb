@@ -975,7 +975,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     '
                     ' Bottom border
                     '
-                    FormDetails = FormDetails & "<tr class=""border""><td class=""border"" Colspan=" & (ColumnCnt) & ">" & cp.Html.div("&nbsp;") & "</td></tr>"
+                    'FormDetails = FormDetails & "<tr class=""border""><td class=""border"" Colspan=" & (ColumnCnt) & ">" & cp.Html.div("&nbsp;") & "</td></tr>"
                     FormDetails = FormDetails & "</table>"
                     '
                     ' Create the FormFolders
@@ -1404,17 +1404,17 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     & "<table id=""AddFolderTable"" border=""0"" cellpadding=""10"" cellspacing=""1"" width=""100%"">" _
                     & "<tr>"
                     FolderCell = FolderCell _
-                    & "<td class=""left"" align=""left"" colspan=2>" & kmaAddSpan("Add Folder&nbsp;", "ccAdminSmall") & "<BR><img src=""/ResourceLibrary/spacer.gif"" width=""230"" height=""1""></td>" _
-                    & "<td class=""left"" Width=""99%"" align=""left"">" & kmaAddSpan("Description&nbsp;", "ccAdminSmall") & "<BR><img src=""/ResourceLibrary/spacer.gif"" width=""100"" height=""1""></td>" _
+                    & "<td class=""left"" align=""left"" colspan=2>" & kmaAddSpan("Add Folder&nbsp;", "ccAdminSmall") & "</td>" _
+                    & "<td class=""left"" Width=""99%"" align=""left"">" & kmaAddSpan("Description&nbsp;", "ccAdminSmall") & "</td>" _
                     & "</tr><tr>" _
-                    & "<td class=""left"" Width=""30"" align=""right"">1&nbsp;<img src=/ResourceLibrary/spacer.gif width=30 height=1></td>" _
+                    & "<td class=""left"" Width=""30"" align=""right"">1&nbsp;</td>" _
                     & "<td class=""left"" align=""left""><INPUT TYPE=""Text"" NAME=""FolderName.1"" SIZE=""30""></td>" _
                     & "<td class=""left"" align=""left""><INPUT TYPE=""Text"" NAME=""FolderDescription.1"" SIZE=""40""></td>" _
                     & "</tr>"
                     FolderCell = FolderCell _
                     & "</Table>" _
                     & "<table border=""0"" cellpadding=""10"" cellspacing=""1"" width=""100%"">" _
-                    & "<tr><td class=""left"" Width=""30""><img src=/ResourceLibrary/spacer.gif width=30 height=1></td><td align=""left""><a href=""#"" onClick=""InsertFolderRow(); return false;"">+ Add more folders</a></td></tr>" _
+                    & "<tr><td class=""left"" Width=""30""></td><td align=""left""><a href=""#"" onClick=""InsertFolderRow(); return false;"">+ Add more folders</a></td></tr>" _
                     & "</Table>" & htmlHidden("AddFolderCount", 1, "", "AddFolderCount")
                 End If
                 Dim FileCell As String = ""
@@ -1423,13 +1423,13 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     & "<table id=""UploadInsert"" border=""0"" cellpadding=""0"" cellspacing=""1"" width=""100%"">" _
                     & "<tr>"
                     FileCell = FileCell _
-                    & "<td class=""left"" align=""left"" colspan=2>" & kmaAddSpan("Add Files&nbsp;", "ccAdminSmall") & "<BR><img src=""/ResourceLibrary/spacer.gif"" width=""230"" height=""1""></td>" _
-                    & "<td class=""left"" Width=""100"" align=""left"">" & kmaAddSpan("Name&nbsp;", "ccAdminSmall") & "<BR><img src=""/ResourceLibrary/spacer.gif"" width=""100"" height=""1""></td>" _
-                    & "<td class=""left"" Width=""100"" align=""left"">" & kmaAddSpan("Description&nbsp;", "ccAdminSmall") & "<BR><img src=""/ResourceLibrary/spacer.gif"" width=""100"" height=""1""></td>" _
+                    & "<td class=""left"" align=""left"" colspan=2>" & kmaAddSpan("Add Files&nbsp;", "ccAdminSmall") & "</td>" _
+                    & "<td class=""left"" Width=""100"" align=""left"">" & kmaAddSpan("Name&nbsp;", "ccAdminSmall") & "</td>" _
+                    & "<td class=""left"" Width=""100"" align=""left"">" & kmaAddSpan("Description&nbsp;", "ccAdminSmall") & "</td>" _
                     & "<td class=""left"" Width=""99%"">&nbsp;</td>" _
                     & "</tr><tr>" _
-                    & "<td class=""left"" Width=""30"" align=""right"">1&nbsp;<BR><img src=/ResourceLibrary/spacer.gif width=30 height=1></td>" _
-                    & "<td class=""left"" Width=""200"" align=""right""><INPUT TYPE=""file"" name=""LibraryUpload.1""><BR><img src=/ResourceLibrary/spacer.gif width=200 height=1></td>" _
+                    & "<td class=""left"" Width=""30"" align=""right"">1&nbsp;</td>" _
+                    & "<td class=""left"" Width=""200"" align=""right""><INPUT TYPE=""file"" name=""LibraryUpload.1""></td>" _
                     & "<td class=""right"" align=""right""><INPUT TYPE=""Text"" NAME=""LibraryName.1"" SIZE=""25""></td>" _
                     & "<td class=""right"" align=""right""><INPUT TYPE=""Text"" NAME=""LibraryDescription.1"" SIZE=""39""></td>" _
                     & "<td class=""left"">&nbsp;</td>" _
@@ -1437,31 +1437,30 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     FileCell = FileCell _
                     & "</Table>" _
                     & "<table border=""0"" cellpadding=""0"" cellspacing=""1"" width=""100%"">" _
-                    & "<tr><td class=""left"" Width=""30""><img src=/ResourceLibrary/spacer.gif width=30 height=1></td><td class=""left"" align=""left""><a href=""#"" onClick=""InsertUploadRow(); return false;"">+ Add more files</a></td></tr>" _
+                    & "<tr><td class=""left"" Width=""30""></td><td class=""left"" align=""left""><a href=""#"" onClick=""InsertUploadRow(); return false;"">+ Add more files</a></td></tr>" _
                     & "</Table>" & htmlHidden("LibraryUploadCount", 1, "", "LibraryUploadCount")
                 End If
                 '
                 '
                 '
                 GetFormRow_Options = "" _
-                    & "<div  style=""margin-left:10px;""><img src=""/ResourceLibrary/spacer.gif"" width=""1"" height=""5"">" _
-                    & "<BR>" & cp.Html.CheckBox("AllowThumbnails", cp.User.GetBoolean("LibraryAllowthumbnails", "0")) & "&nbsp;Display Thumbnails"
+                    & "<div  style=""margin-left:10px;"">" & cp.Html.CheckBox("AllowThumbnails", cp.User.GetBoolean("LibraryAllowthumbnails", "0")) & "&nbsp;Display Thumbnails"
                 If cp.User.IsAdmin Or hasModifyAccess Then
                     '
                     Dim moveSelect As String = GetMoveFolderPathSelect(cp, FolderID, topFolderPath)
                     If moveSelect <> "" Then
-                        GetFormRow_Options = GetFormRow_Options & "<BR>" & cp.Html.CheckBox("Move", False) & "&nbsp;Move selected files to " & moveSelect
+                        GetFormRow_Options &= "<BR>" & cp.Html.CheckBox("Move", False) & "&nbsp;Move selected files to " & moveSelect
                     End If
                     If FolderCell <> "" Then
-                        GetFormRow_Options = GetFormRow_Options & "<BR><BR>" & cp.Html.div(FolderCell)
+                        GetFormRow_Options &= "<hr>" & cp.Html.div(FolderCell)
                     End If
                     If FileCell <> "" Then
-                        GetFormRow_Options = GetFormRow_Options & "<BR>" & cp.Html.div(FileCell)
+                        GetFormRow_Options &= "<hr>" & cp.Html.div(FileCell)
                     End If
                 End If
                 If GetFormRow_Options <> "" Then
                     GetFormRow_Options = cp.Html.div(GetFormRow_Options)
-                    GetFormRow_Options = "<tr><td class=""left"" colspan=" & (ColumnCnt) & ">" & GetFormRow_Options & "</td></tr>"
+                    GetFormRow_Options = "<tr><td class=""bg-light left"" colspan=" & (ColumnCnt) & ">" & GetFormRow_Options & "</td></tr>"
                 End If
                 '
                 result = GetFormRow_Options
