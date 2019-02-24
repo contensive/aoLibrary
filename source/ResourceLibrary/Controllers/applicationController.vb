@@ -38,23 +38,7 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
         ''' </summary>
         ''' <returns></returns>
         Public Property packageProfileList As New List(Of packageProfileClass)
-        '
-        '====================================================================================================
-        ''' <summary>
-        ''' instance of performanceCloud cache
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public ReadOnly Property pCache As cacheController
-            Get
-                If (_pcache Is Nothing) Then
-                    _pcache = New cacheController(cp)
-                End If
-                Return _pcache
-            End Get
-        End Property
-        Private _pcache As cacheController
+
         '
         '====================================================================================================
         ''' <summary>
@@ -160,9 +144,7 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
                     '
                     ' ----- call .dispose for managed objects
                     '
-                    If Not _pcache Is Nothing Then
-                        _pcache.Dispose()
-                    End If
+
                 End If
                 '
                 ' Add code here to release the unmanaged resource.

@@ -1,5 +1,5 @@
 
-'Option Strict On
+Option Strict On
 Option Explicit On
 
 Imports System.Net
@@ -8,7 +8,6 @@ Imports Contensive.Addons.ResourceLibrary.Controllers
 Imports Contensive.BaseClasses
 Imports Contensive.Addons.ResourceLibrary.Controllers.genericController
 Imports Contensive.Addons.ResourceLibrary.Models
-Imports Contensive.VbConversion.Contensive.VbConversion
 Imports Contensive.VbConversion
 
 Namespace Contensive.Addons.ResourceLibrary.Views
@@ -227,18 +226,8 @@ Namespace Contensive.Addons.ResourceLibrary.Views
         Private Function GetForm(cp As CPBaseClass, topFolderPath As String, AllowGroupAdd As Boolean) As String
             Dim result As String = ""
             Try
-                Const LibraryFileTypespathFilename = "ResourceLibrary\LibraryConfig.xml"
-                Dim FolderAccess As Boolean
-                Dim hint As String
-                '
-                hint = "000"
-                '
-                Const Image5 = "<img src=/ResourceLibrary/spacer.gif width=5 height=1>"
-                Const Image10 = "<img src=/ResourceLibrary/spacer.gif width=10 height=1>"
-                Const Image15 = "<img src=/ResourceLibrary/spacer.gif width=15 height=1>"
-                Const Image20 = "<img src=/ResourceLibrary/spacer.gif width=20 height=1>"
-                Const Image30 = "<img src=/ResourceLibrary/spacer.gif width=30 height=1>"
-                Const Image50 = "<img src=/ResourceLibrary/spacer.gif width=50 height=1>"
+                Const LibraryFileTypespathFilename = "resourcelibrary\LibraryConfig.xml"
+                Dim hint As String = "000"
                 '
                 Dim ButtonBarStyle As String = "" _
                         & " color: black;" _
@@ -291,7 +280,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     ' verify that current folder has viewAccess (if not jumpt to root)
                     '
                     If currentFolderID <> 0 Then
-                        currentFolderPtr = FolderIdIndex.getPtr(currentFolderID)
+                        currentFolderPtr = FolderIdIndex.getPtr(currentFolderID.ToString())
                         If (currentFolderPtr > UBound(folders)) Or (currentFolderPtr < 0) Then
                             currentFolderPtr = 0
                         End If
@@ -332,76 +321,58 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     '
                     hint = "030"
                     Dim doc As Xml.XmlDocument = New Xml.XmlDocument
-                    Dim FilePath As String = cp.Request.Protocol & cp.Request.Host & cp.Site.FilePath
-                    Dim ConfigFilename As String = cp.Site.PhysicalFilePath & LibraryFileTypespathFilename
-                    Call doc.Load(ConfigFilename)
+                    doc.LoadXml(cp.File.ReadVirtual(LibraryFileTypespathFilename))
                     Dim Ptr As Integer
-                    If False Then
-                        '
-                        ' Error
-                        '
-                        'Call AppendLogFile2( "Server", "AddonInstallClass", "DownloadCollectionFiles, The GetCollection request for GUID [" & CollectionGuid & "] failed. The error was [" & doc.parseError.reason & "]")
-                    Else
-                        hint = "040"
-                        If (LCase(doc.DocumentElement.Name) <> LCase("libraryconfig")) Then
-                            'Return_ErrorMessage = "The collection file from the server was not valid for collection [" & CollectionGuid & "]"
-                            'DownloadCollectionFiles = False
-                            'Call AppendClassLogFile("Server", "AddonInstallClass", "DownloadCollectionFiles, The GetCollection request for GUID [" & CollectionGuid & "] named [" & Collectionname & "] returned a file with a bad format. The root node was [" & doc.documentElement.Name & "] but [" & DownloadFileRootNode & "] was expected.")
-                        Else
-                            If doc.DocumentElement.ChildNodes.Count = 0 Then
-                                'Return_ErrorMessage = "The collection file from the server was empty for collection [" & CollectionGuid & "]"
-                                'Call AppendClassLogFile("Server", "AddonInstallClass", "DownloadCollectionFiles, The GetCollection request for GUID [" & CollectionGuid & "] named [" & Collectionname & "] returned a file with no nodes. The collection was probably not found")
-                                'DownloadCollectionFiles = False
-                            Else
-                                With doc.DocumentElement
-                                    Ptr = 0
-                                    hint = "050"
-                                    Dim baseNode As Xml.XmlElement
-                                    For Each baseNode In .ChildNodes
-                                        hint = "060"
-                                        Select Case LCase(baseNode.Name)
-                                            Case "filetype"
-                                                hint = "070"
-                                                Ptr = Ptr + 1
-                                                Dim newFileType As New FileType
-                                                iconFiles.Add(newFileType)
-                                                'Dim IconCnt As Integer
-                                                'If Ptr >= IconCnt Then
-                                                '    IconCnt = IconCnt + 10
-                                                '    ReDim Preserve IconFiles(IconCnt)
-                                                'End If
-                                                With newFileType
-                                                    Dim typeNode As Xml.XmlElement
-                                                    For Each typeNode In baseNode.ChildNodes
-                                                        Select Case LCase(typeNode.Name)
-                                                            Case "name"
-                                                                .Name = typeNode.Value
-                                                            Case "filetypeid"
-                                                                .FileTypeID = cp.Utils.EncodeInteger(typeNode.Value)
-                                                            Case "extensionlist"
-                                                                .ExtensionList = typeNode.Value
-                                                            Case "isdownload"
-                                                                .IsDownload = cp.Utils.EncodeBoolean(typeNode.Value)
-                                                            Case "isimage"
-                                                                .IsImage = cp.Utils.EncodeBoolean(typeNode.Value)
-                                                            Case "isvideo"
-                                                                .IsVideo = cp.Utils.EncodeBoolean(typeNode.Value)
-                                                            Case "isflash"
-                                                                .IsFlash = cp.Utils.EncodeBoolean(typeNode.Value)
-                                                            Case "iconlink"
-                                                                .IconFilename = typeNode.Value
-                                                            Case "mediaiconlink"
-                                                                .MediaIconFilename = typeNode.Value
-                                                            Case "downloadiconlink"
-                                                                .DownloadIconFilename = typeNode.Value
-                                                        End Select
-                                                    Next
-                                                End With
-                                        End Select
-                                    Next
-                                    'IconFileCnt = Ptr
-                                End With
-                            End If
+                    hint = "040"
+                    If (doc.DocumentElement.Name.ToLower().Equals("libraryconfig")) Then
+                        If doc.DocumentElement.ChildNodes.Count > 0 Then
+                            With doc.DocumentElement
+                                Ptr = 0
+                                hint = "050"
+                                Dim baseNode As Xml.XmlElement
+                                For Each baseNode In .ChildNodes
+                                    hint = "060"
+                                    Select Case LCase(baseNode.Name)
+                                        Case "filetype"
+                                            hint = "070"
+                                            Ptr = Ptr + 1
+                                            Dim newFileType As New FileType
+                                            iconFiles.Add(newFileType)
+                                            'Dim IconCnt As Integer
+                                            'If Ptr >= IconCnt Then
+                                            '    IconCnt = IconCnt + 10
+                                            '    ReDim Preserve IconFiles(IconCnt)
+                                            'End If
+                                            With newFileType
+                                                Dim typeNode As Xml.XmlElement
+                                                For Each typeNode In baseNode.ChildNodes
+                                                    Select Case LCase(typeNode.Name)
+                                                        Case "name"
+                                                            .Name = typeNode.Value
+                                                        Case "filetypeid"
+                                                            .FileTypeID = cp.Utils.EncodeInteger(typeNode.Value)
+                                                        Case "extensionlist"
+                                                            .ExtensionList = typeNode.Value
+                                                        Case "isdownload"
+                                                            .IsDownload = cp.Utils.EncodeBoolean(typeNode.Value)
+                                                        Case "isimage"
+                                                            .IsImage = cp.Utils.EncodeBoolean(typeNode.Value)
+                                                        Case "isvideo"
+                                                            .IsVideo = cp.Utils.EncodeBoolean(typeNode.Value)
+                                                        Case "isflash"
+                                                            .IsFlash = cp.Utils.EncodeBoolean(typeNode.Value)
+                                                        Case "iconlink"
+                                                            .IconFilename = typeNode.Value
+                                                        Case "mediaiconlink"
+                                                            .MediaIconFilename = typeNode.Value
+                                                        Case "downloadiconlink"
+                                                            .DownloadIconFilename = typeNode.Value
+                                                    End Select
+                                                Next
+                                            End With
+                                    End Select
+                                Next
+                            End With
                         End If
                     End If
                     '
@@ -713,20 +684,20 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     '
                     Dim FormDetails As String = "<table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%""><tr class=""headRow"">"
                     If AllowSelectColumn Then
-                        FormDetails = FormDetails & GetForm_HeaderCell(cp, "center", "10", "Select<BR>" & Image10)
+                        FormDetails = FormDetails & GetForm_HeaderCell(cp, "center", "10", "Select<BR>" & spacer1x10)
                     End If
                     If AllowEditColumn Then
-                        FormDetails = FormDetails & GetForm_HeaderCell(cp, "center", "15", "Edit<br>" & Image15)
+                        FormDetails = FormDetails & GetForm_HeaderCell(cp, "center", "15", "Edit<br>" & spacer1x15)
                     End If
                     If AllowPlaceColumn Then
-                        FormDetails = FormDetails & GetForm_HeaderCell(cp, "center", "15", "Place<br>" & Image15)
+                        FormDetails = FormDetails & GetForm_HeaderCell(cp, "center", "15", "Place<br>" & spacer1x15)
                     End If
                     FormDetails = FormDetails _
-                            & GetForm_HeaderCell(cp, "left", "20", "&nbsp;<BR>" & Image20) _
-                            & GetForm_HeaderCell(cp, "left", "20%", "Name<br>" & Image20) _
-                            & GetForm_HeaderCell(cp, "left", "50%", "Description<br>" & Image15) _
-                            & GetForm_HeaderCell(cp, "center", "50", "Size<br>" & Image50) _
-                            & GetForm_HeaderCell(cp, "center", "50", "Modified&nbsp;&nbsp;<br>" & Image50) _
+                            & GetForm_HeaderCell(cp, "left", "20", "&nbsp;<BR>" & spacer1x20) _
+                            & GetForm_HeaderCell(cp, "left", "20%", "Name<br>" & spacer1x20) _
+                            & GetForm_HeaderCell(cp, "left", "50%", "Description<br>" & spacer1x15) _
+                            & GetForm_HeaderCell(cp, "center", "50", "Size<br>" & spacer1x50) _
+                            & GetForm_HeaderCell(cp, "center", "50", "Modified&nbsp;&nbsp;<br>" & spacer1x50) _
                             & "</tr>"
                     '
                     ' ----- Select the Folder Rows
@@ -1485,74 +1456,56 @@ Namespace Contensive.Addons.ResourceLibrary.Views
         '
         '
         Private Function IsInFolder(cp As CPBaseClass, topFolderID As Integer, FolderID As Integer, Optional ParentPath As String = "") As Boolean
-            Dim result As String = ""
             Try
-                '
-                Dim cS As Integer
+                If (FolderID = 0) Then Return False
+                If (topFolderID = 0) Then Return True
+                If (InStr(1, "," & ParentPath & ",", "," & CStr(FolderID) & ",") <> 0) Then Return False
+                ParentPath &= "," & CStr(FolderID)
+                Dim folder = LibraryFolderModel.create(cp, FolderID)
                 Dim ParentID As Integer
-                '
-                If FolderID = 0 Then
-                    IsInFolder = False
-                ElseIf topFolderID = 0 Then
-                    IsInFolder = True
-                ElseIf (InStr(1, "," & ParentPath & ",", "," & CStr(FolderID) & ",") <> 0) Then
-                    IsInFolder = False
-                Else
-                    ParentPath = ParentPath & "," & CStr(FolderID)
-                    Dim folder As LibraryFolderModel = LibraryFolderModel.create(cp, FolderID)
-                    If (folder IsNot Nothing) Then
-                        ParentID = folder.ParentID
-                    End If
-                    If ParentID = 0 Then
-                        IsInFolder = False
-                    ElseIf ParentID = topFolderID Then
-                        IsInFolder = True
-                    Else
-                        IsInFolder = IsInFolder(cp, topFolderID, ParentID, ParentPath)
-                    End If
+                If (folder IsNot Nothing) Then
+                    ParentID = folder.ParentID
                 End If
-                '
-                result = IsInFolder
+                If ParentID = 0 Then
+                    Return False
+                ElseIf ParentID = topFolderID Then
+                    Return True
+                Else
+                    Return IsInFolder(cp, topFolderID, ParentID, ParentPath)
+                End If
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)
             End Try
-            Return result
+            Return IsInFolder
         End Function
         '
         '
         '
         Private Function GetParentFoldersLink(cp As CPBaseClass, topFolderPath As String, topFolderID As Integer, currentFolderID As Integer, FolderID As Integer, RefreshQS As String, ChildIDList As String) As String
-            Dim folderName As String = ""
             Dim result As String = ""
             Try
-                '
-                If FolderID = 0 Or (FolderID = topFolderID) Then
+                Dim folderName As String = ""
+                If (FolderID = 0) Or (FolderID = topFolderID) Then
                     '
                     ' Root folder
-                    '
                     folderName = topFolderPath
                     If folderName = "" Then
                         folderName = "Root"
                     End If
                     If currentFolderID = FolderID Then
-                        GetParentFoldersLink = "Folder <B>" & folderName & "</B>"
+                        result = "Folder <B>" & folderName & "</B>"
                     Else
-                        GetParentFoldersLink = "Folder <a href=?" & RefreshQS & "&FolderID=0>" & folderName & "</a>"
+                        result = "Folder <a href=?" & RefreshQS & "&FolderID=0>" & folderName & "</a>"
                     End If
                 Else
                     Dim LibraryFolder As LibraryFolderModel = LibraryFolderModel.create(cp, "ID=" & FolderID)
-
-                    '
-
                     Dim ParentID As Integer
                     Dim RecordFound As Boolean
-                    'cS = main.OpenCSContent("Library Folders", "ID=" & FolderID, , , , , "Name,ParentID")
                     If Not (LibraryFolder Is Nothing) Then
                         RecordFound = True
                         ParentID = LibraryFolder.ParentID
                         folderName = LibraryFolder.name
                     End If
-
                     Dim FolderLink As String
                     '
                     If currentFolderID = FolderID Then
@@ -1560,37 +1513,29 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     Else
                         FolderLink = "<a href=?" & RefreshQS & "&FolderID=" & FolderID & ">" & folderName & "</a>"
                     End If
-                    '
                     If (Not RecordFound) Or (FolderID = topFolderID) Then
                         '
                         ' call this the top of the tree
-                        '
                         If folderName = "" Then
                             folderName = "Root"
                         End If
-                        GetParentFoldersLink = "Folder " & FolderLink
+                        result = "Folder " & FolderLink
                     ElseIf InStr(1, ChildIDList & ",", "," & FolderID & ",") <> 0 Then
                         '
                         ' circular reference - end it here
-                        '
-                        GetParentFoldersLink = "Folder (Circular Reference) > " & FolderLink
+                        result = "Folder (Circular Reference) > " & FolderLink
                     ElseIf currentFolderID = ParentID Then
                         '
                         ' circular reference - end it here
-                        '
-                        GetParentFoldersLink = "Folder " & FolderLink
+                        result = "Folder " & FolderLink
                     Else
-                        GetParentFoldersLink = GetParentFoldersLink(cp, topFolderPath, topFolderID, currentFolderID, ParentID, RefreshQS, ChildIDList & "," & FolderID) & "\" & FolderLink
-                        'GetParentFoldersLink = GetParentFoldersLink(cp,topFolderPath, topFolderID, CurrentFolderID, ParentID, RefreshQS, ChildIDList & "," & FolderID) & " > " & FolderLink
+                        result = GetParentFoldersLink(cp, topFolderPath, topFolderID, currentFolderID, ParentID, RefreshQS, ChildIDList & "," & FolderID) & "\" & FolderLink
                     End If
                 End If
-                result = GetParentFoldersLink
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)
             End Try
             Return result
-
-            Exit Function
         End Function
         '
         '----------------------------------------------------------------------------------------
@@ -1885,143 +1830,134 @@ Namespace Contensive.Addons.ResourceLibrary.Views
             End Try
         End Function
         '
-        '
+        '====================================================================================================
         '
         Private Function LoadFolders_returnTopFolderId(cp As CPBaseClass, topFolderPath As String) As Integer
             Dim topFolderID As Integer
-            'Dim cs1 As CPCSBaseClass = cp.CSNew()
-            '
-            Dim result As String = ""
             Try
                 FolderIdIndex = New FastIndexClass
                 FolderNameIndex = New FastIndexClass
                 FolderPathIndex = New FastIndexClass
-                If (True) Then
-                    Dim IsAdmin As Boolean = cp.User.IsAdmin
-                    Dim lcasetopFolderPath As String = LCase(topFolderPath)
+                '
+                ' Load the folders storage
+                Dim foldersList As List(Of Models.LibraryFolderModel) = Models.LibraryFolderModel.createList(cp, "")
+                folderCnt = 0
+                If (foldersList.Count > 0) Then
                     '
-                    ' Load the folders storage
+                    ' Store folders and setup folder index
                     '
-                    Dim foldersList As List(Of Models.LibraryFolderModel) = Models.LibraryFolderModel.createList(cp, "")
-                    folderCnt = 0
-                    If (foldersList.Count > 0) Then
-                        '
-                        ' Store folders and setup folder index
-                        '
-                        folderCnt = foldersList.Count
-                        ReDim folders(foldersList.Count - 1)
-                        Dim Ptr As Integer = 0
+                    folderCnt = foldersList.Count
+                    ReDim folders(foldersList.Count - 1)
+                    Dim Ptr As Integer = 0
 
-                        For Each folder In foldersList
-                            folders(Ptr) = New FolderType()
+                    For Each folder In foldersList
+                        folders(Ptr) = New FolderType()
+                        If True Then
                             If True Then
-                                If True Then
-                                    Call FolderIdIndex.SetPointer(CStr(folder.id), Ptr)
-                                    Call FolderNameIndex.SetPointer(folder.name, Ptr)
-                                    With folders(Ptr)
-                                        .FolderID = folder.id
-                                        .parentFolderID = folder.ParentID
-                                        .Name = folder.name
-                                        .hasModifyAccess = True
+                                Call FolderIdIndex.SetPointer(CStr(folder.id), Ptr)
+                                Call FolderNameIndex.SetPointer(folder.name, Ptr)
+                                With folders(Ptr)
+                                    .FolderID = folder.id
+                                    .parentFolderID = folder.ParentID
+                                    .Name = folder.name
+                                    .hasModifyAccess = True
+                                    .modifyAccessIsValid = True
+                                    .hasViewAccess = True
+                                End With
+                                '
+                                ' FullPath, propigate modifyAccess from parent to folder , ViewAccess
+                                '
+                                With folders(Ptr)
+                                    '
+                                    ' determine modify access
+                                    '
+                                    If (Not .modifyAccessIsValid) Then
+                                        .hasModifyAccess = LoadFolders_GetModifyAccess(cp, .parentFolderID)
                                         .modifyAccessIsValid = True
+                                    End If
+                                    '
+                                    Dim testFullPath As String = GetFolderPath(cp, Ptr, "")
+                                    folders(Ptr).FullPath = testFullPath
+                                    'End If
+                                    Call FolderPathIndex.SetPointer(testFullPath, Ptr)
+                                    '
+                                    If InStr(1, testFullPath, "root\" & topFolderPath, vbTextCompare) = 1 Then
+                                        '
                                         .hasViewAccess = True
-                                    End With
+                                    End If
+                                End With
+                                '
+                                '
+                                topFolderID = 0
+                                If topFolderPath <> "" Then
+                                    Dim targetFolders() As String = Split(topFolderPath, "\")
+                                    Dim targetFolderCnt As Integer = UBound(targetFolders) + 1
+                                    topFolderID = loadFolders_getFolderID(cp, targetFolders, targetFolderCnt - 1)
                                     '
-                                    ' FullPath, propigate modifyAccess from parent to folder , ViewAccess
+                                    ' if topFolderId not found, create the new folder(s) necessary to targetFolderPath
                                     '
-                                    With folders(Ptr)
-                                        '
-                                        ' determine modify access
-                                        '
-                                        If (Not .modifyAccessIsValid) Then
-                                            .hasModifyAccess = LoadFolders_GetModifyAccess(cp, .parentFolderID)
-                                            .modifyAccessIsValid = True
-                                        End If
-                                        '
-                                        Dim testFullPath As String = GetFolderPath(cp, Ptr, "")
-                                        folders(Ptr).FullPath = testFullPath
-                                        'End If
-                                        Call FolderPathIndex.SetPointer(testFullPath, Ptr)
-                                        '
-                                        If InStr(1, testFullPath, "root\" & topFolderPath, vbTextCompare) = 1 Then
+                                    Dim targetFolderName As String = ""
+                                    If topFolderID = 0 Then
+                                        Dim targetFolderId As Integer = 0
+                                        For Ptr = 0 To targetFolderCnt - 1
+                                            targetFolderName = targetFolders(Ptr)
+                                            Dim targetParentFolderID As Integer = targetFolderId
                                             '
-                                            .hasViewAccess = True
-                                        End If
-                                    End With
-                                    '
-                                    '
-                                    topFolderID = 0
-                                    If topFolderPath <> "" Then
-                                        Dim targetFolders() As String = Split(topFolderPath, "\")
-                                        Dim targetFolderCnt As Integer = UBound(targetFolders) + 1
-                                        topFolderID = loadFolders_getFolderID(cp, targetFolders, targetFolderCnt - 1)
-                                        '
-                                        ' if topFolderId not found, create the new folder(s) necessary to targetFolderPath
-                                        '
-                                        Dim targetFolderName As String = ""
-                                        If topFolderID = 0 Then
-                                            Dim targetFolderId As Integer = 0
-                                            For Ptr = 0 To targetFolderCnt - 1
-                                                targetFolderName = targetFolders(Ptr)
-                                                Dim targetParentFolderID As Integer = targetFolderId
-                                                '
-                                                ' find or create the folder with this name and this targetParentFolderID
-                                                '
-                                                Dim testFolderPtr As Integer = FolderNameIndex.getPtr(targetFolders(Ptr))
-                                                Do While testFolderPtr >= 0
-                                                    Dim testParentID As Integer = folders(testFolderPtr).parentFolderID
-                                                    If targetParentFolderID <> testParentID Then
-                                                        '
-                                                        ' right name but wrong parent, try next
-                                                        '
-                                                    Else
-                                                        '
-                                                        ' good match, this as the parent and find the next
-                                                        '
-                                                        Exit Do
-                                                    End If
-                                                    testFolderPtr = FolderNameIndex.GetNextPointerMatch(targetFolderName)
-                                                Loop
-                                                If testFolderPtr >= 0 Then
-                                                    targetFolderId = folders(testFolderPtr).FolderID
+                                            ' find or create the folder with this name and this targetParentFolderID
+                                            '
+                                            Dim testFolderPtr As Integer = FolderNameIndex.getPtr(targetFolders(Ptr))
+                                            Do While testFolderPtr >= 0
+                                                Dim testParentID As Integer = folders(testFolderPtr).parentFolderID
+                                                If targetParentFolderID <> testParentID Then
+                                                    '
+                                                    ' right name but wrong parent, try next
+                                                    '
                                                 Else
                                                     '
-                                                    ' folder not found, create it with the parent
+                                                    ' good match, this as the parent and find the next
                                                     '
-                                                    'cS = main.InsertCSRecord("Library Folders")
+                                                    Exit Do
+                                                End If
+                                                testFolderPtr = FolderNameIndex.GetNextPointerMatch(targetFolderName)
+                                            Loop
+                                            If testFolderPtr >= 0 Then
+                                                targetFolderId = folders(testFolderPtr).FolderID
+                                            Else
+                                                '
+                                                ' folder not found, create it with the parent
+                                                '
+                                                'cS = main.InsertCSRecord("Library Folders")
 
-                                                    'If main.IsCSOK(cS) Then
-                                                    If Not (folder Is Nothing) Then
-                                                        targetFolderId = folder.id
-                                                        folder.name = targetFolderName
-                                                        folder.ParentID = targetParentFolderID
-                                                        'Call main.SetCS(cS, "name", targetFolderName)
-                                                        'Call main.SetCS(cS, "parentid", targetParentFolderID)
-                                                        folder.save(cp)
-                                                    End If
-                                                    'Call main.CloseCS(cS)
+                                                'If main.IsCSOK(cS) Then
+                                                If Not (folder Is Nothing) Then
+                                                    targetFolderId = folder.id
+                                                    folder.name = targetFolderName
+                                                    folder.ParentID = targetParentFolderID
+                                                    'Call main.SetCS(cS, "name", targetFolderName)
+                                                    'Call main.SetCS(cS, "parentid", targetParentFolderID)
+                                                    folder.save(cp)
                                                 End If
-                                                If Ptr = (targetFolderCnt - 1) Then
-                                                    topFolderID = targetFolderId
-                                                End If
-                                            Next
-                                        End If
+                                                'Call main.CloseCS(cS)
+                                            End If
+                                            If Ptr = (targetFolderCnt - 1) Then
+                                                topFolderID = targetFolderId
+                                            End If
+                                        Next
                                     End If
                                 End If
                             End If
-                            Ptr += 1
-                        Next
-                        '
-                    End If
+                        End If
+                        Ptr += 1
+                    Next
+                    '
                 End If
-                '
                 LoadFolders_returnTopFolderId = topFolderID
                 '
-                result = LoadFolders_returnTopFolderId
+                topFolderID = LoadFolders_returnTopFolderId
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)
             End Try
-            Return result
+            Return topFolderID
         End Function
 
         'Private Function IsEmpty(folderCells As Object) As Boolean

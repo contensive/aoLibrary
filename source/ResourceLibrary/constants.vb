@@ -5,6 +5,14 @@ Option Strict On
 Namespace Contensive.Addons.ResourceLibrary
     Public Module constants
         '
+        '
+        Public Const spacer1x5 As String = "<img src=/ResourceLibrary/spacer.gif width=5 height=1>"
+        Public Const spacer1x10 As String = "<img src=/ResourceLibrary/spacer.gif width=10 height=1>"
+        Public Const spacer1x15 As String = "<img src=/ResourceLibrary/spacer.gif width=15 height=1>"
+        Public Const spacer1x20 As String = "<img src=/ResourceLibrary/spacer.gif width=20 height=1>"
+        Public Const spacer1x30 As String = "<img src=/ResourceLibrary/spacer.gif width=30 height=1>"
+        Public Const spacer1x50 As String = "<img src=/ResourceLibrary/spacer.gif width=50 height=1>"
+        '
         ' -- sample
         Public Const ButtonCancel As String = "Cancel"
         Public Const ButtonDelete As String = "Delete"
