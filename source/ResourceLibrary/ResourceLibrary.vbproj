@@ -66,6 +66,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
@@ -81,7 +82,7 @@
   <ItemGroup>
     <Compile Include="constants.vb" />
     <Compile Include="Controllers\applicationController.vb" />
-    <Compile Include="Legacy\ContentServerClass.vb" />
+    <Compile Include="Controllers\ImageController.vb" />
     <Compile Include="Legacy\fastIndexClass.vb" />
     <Compile Include="Legacy\MainClass.vb" />
     <Compile Include="Models\Complex\baseComplexModel.vb" />
@@ -230,7 +231,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)*.dll" "C:\Program Files (x86)\kma\Contensive\Addons"
+    <PostBuildEvent>iisreset
+del "C:\ProgramData\Contensive\AddonAssemblyBypass\*.*" /q
+copy "$(TargetDir)*.dll" "C:\ProgramData\Contensive\AddonAssemblyBypass"
+
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

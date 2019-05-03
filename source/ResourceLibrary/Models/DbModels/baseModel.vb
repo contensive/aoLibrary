@@ -103,7 +103,7 @@ Namespace Contensive.Addons.ResourceLibrary
                     Dim instanceType As Type = GetType(T)
                     Dim contentName As String = derivedContentName(instanceType)
                     Dim cs As CPCSBaseClass = cp.CSNew()
-                    If cs.Open(contentName, "(id=" & recordId.ToString() & ")") Then
+                    If cs.Open(contentName, "(id=" & recordId.ToString() & ")", "", True, "", 9999, 1) Then
                         result = loadRecord(Of T)(cp, cs)
                     End If
                     cs.Close()
@@ -127,7 +127,7 @@ Namespace Contensive.Addons.ResourceLibrary
                 Dim instanceType As Type = GetType(T)
                 Dim contentName As String = derivedContentName(instanceType)
                 Dim cs As CPCSBaseClass = cp.CSNew()
-                If cs.Open(contentName, "(ccGuid=" & cp.Db.EncodeSQLText(recordGuid) & ")") Then
+                If cs.Open(contentName, "(ccGuid=" & cp.Db.EncodeSQLText(recordGuid) & ")", "", True, "", 9999, 1) Then
                     result = loadRecord(Of T)(cp, cs)
                 End If
                 cs.Close()
@@ -151,7 +151,7 @@ Namespace Contensive.Addons.ResourceLibrary
                     Dim instanceType As Type = GetType(T)
                     Dim contentName As String = derivedContentName(instanceType)
                     Dim cs As CPCSBaseClass = cp.CSNew()
-                    If cs.Open(contentName, "(name=" & cp.Db.EncodeSQLText(recordName) & ")", "id") Then
+                    If cs.Open(contentName, "(name=" & cp.Db.EncodeSQLText(recordName) & ")", "id", True, "", 9999, 1) Then
                         result = loadRecord(Of T)(cp, cs)
                     End If
                     cs.Close()
@@ -268,7 +268,7 @@ Namespace Contensive.Addons.ResourceLibrary
                 Dim contentName As String = derivedContentName(instanceType)
                 Dim tableName As String = derivedContentTableName(instanceType)
                 If (id > 0) Then
-                    If Not cs.Open(contentName, "id=" & id) Then
+                    If Not cs.Open(contentName, "id=" & id, "", True, "", 9999, 1) Then
                         Dim message As String = "Unable to open record in content [" & contentName & "], with id [" & id & "]"
                         cs.Close()
                         id = 0
@@ -457,7 +457,7 @@ Namespace Contensive.Addons.ResourceLibrary
                 Dim ignoreCacheNames As New List(Of String)
                 Dim instanceType As Type = GetType(T)
                 Dim contentName As String = derivedContentName(instanceType)
-                If (cs.Open(contentName, sqlCriteria, sqlOrderBy)) Then
+                If (cs.Open(contentName, sqlCriteria, sqlOrderBy, True, "", 9999, 1)) Then
                     Dim instance As T
                     Do
                         instance = loadRecord(Of T)(cp, cs)

@@ -120,7 +120,7 @@ Namespace Contensive.Addons.ResourceLibrary.Models     '<------ set namespace
                       & " and R.Active<>0" _
                       & " and M.Active<>0" _
                       & " and ((M.DateExpires is null)or(M.DateExpires>" & cp.Db.EncodeSQLDate(Now) & "))"
-                result = createList(cp, "(FolderID in (" & SQL & "))")
+                result = createList(cp, "(FolderID in (" & SQL & "))", "name")
             Catch ex As Exception
                 cp.Site.ErrorReport(ex)
             End Try
