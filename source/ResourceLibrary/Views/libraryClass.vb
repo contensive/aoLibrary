@@ -651,7 +651,7 @@ Namespace Contensive.Addons.ResourceLibrary.Views
                     Dim rnbutton As String = "Button"
                     Dim ButtonExit As String
                     If (SourceMode = SourceModeFromDownloadRequest) Or (SourceMode = SourceModeFromLinkDialog) Then
-                        ButtonExit = cp.Html.Button(rnbutton, ButtonClose, , "windowcloseID")
+                        ButtonExit = cp.Html.Button(rnbutton, ButtonClose, "", "windowcloseID")
                     Else
                         ButtonExit = cp.Html.Button(rnbutton, ButtonCancel)
                     End If

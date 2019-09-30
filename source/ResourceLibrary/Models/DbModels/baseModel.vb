@@ -302,7 +302,7 @@ Namespace Contensive.Addons.ResourceLibrary
                             If (targetNullable And (String.IsNullOrEmpty(propertyValueText))) Then
                                 '
                                 ' -- null value in a nullable property - save a blank value to a Db field
-                                cs.SetField(instanceProperty.Name, Nothing)
+                                cs.SetField(instanceProperty.Name, "")
                             Else
                                 '
                                 ' -- not nullable or value is not null
@@ -379,7 +379,7 @@ Namespace Contensive.Addons.ResourceLibrary
                                                 If (String.IsNullOrEmpty(filename)) Then
                                                     filename = getUploadPath(Of T)(instanceProperty.Name.ToLower())
                                                 End If
-                                                cs.SetFile(instanceProperty.Name, content, contentName)
+                                                cs.SetField(instanceProperty.Name, content)
                                             End If
                                         End If
 
@@ -488,7 +488,7 @@ Namespace Contensive.Addons.ResourceLibrary
                 Dim ignoreCacheNames As New List(Of String)
                 Dim instanceType As Type = GetType(T)
                 Dim contentName As String = derivedContentName(instanceType)
-                If (cs.Open(contentName, sqlCriteria, sqlOrderBy,,, pageSize, pageNumber)) Then
+                If (cs.Open(contentName, sqlCriteria, sqlOrderBy, True, "", pageSize, pageNumber)) Then
                     Dim instance As T
                     Do
                         instance = loadRecord(Of T)(cp, cs, listOfLowerCaseFields)
