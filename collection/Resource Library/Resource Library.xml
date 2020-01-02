@@ -31,7 +31,7 @@ Block Folder Navigation=No[Yes|No]
 		<!-- deprecated --><JSBodyScriptSrc></JSBodyScriptSrc>
 		<!-- deprecated --><JavascriptBodyEnd></JavascriptBodyEnd>
 		<!-- deprecated --><JavascriptOnLoad></JavascriptOnLoad>
-		<Content>Yes</Content>
+		<Content>No</Content>
 		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>Yes</Admin>
