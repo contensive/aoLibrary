@@ -8,21 +8,21 @@
 		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.ResourceLibrary.Views.libraryClass]]></DotNetClass>
 		<ArgumentList><![CDATA[RootFolderName
-AllowGroupAdd=Yes[Yes|No]
-AllowSelectResource=No[Yes|No]
-SelectResourceEditorObjectName
-SelectLinkObjectName
-Block Folder Navigation=No[Yes|No]
-]]></ArgumentList>
+			AllowGroupAdd=Yes[Yes|No]
+			AllowSelectResource=No[Yes|No]
+			SelectResourceEditorObjectName
+			SelectLinkObjectName
+			Block Folder Navigation=No[Yes|No]
+			]]></ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
 		<Help><![CDATA[<p>The resource library is a convenient place to store files used through the site. It can be accessed several ways:</p><ul>
-<li>From the admin site navigator under Manage Content. Use the resource library from here to upload resources and manage folders</li><li>While editing other content such as a page, import an image from the resource library by clicking the image tool then the folder tool.</li><li>While editing other content, create a download from the resource library by clicking the download tool.</li><li>While editing other content, create a link to resource by highlighting text and clicking the link tool, then the folder icon.</li><li>The Resource Library can be dropped on any public page to create a public file sharing repository.</li></ul><p>Folder access and permissions</p><ul>
-<li>Administrators have full access to edit files and folders, upload and delete files, and create and delete folders.</li><li>When using the resource library to provide resources for the wysiwyg editor, content managers can access and use all resource library files and folders.</li><li>Content managers can be given permission to upload or delete files, and add or delete folders within a specified folder. These permissions are controlled with group access through the folder record.</li></ul>]]></Help>
+			<li>From the admin site navigator under Manage Content. Use the resource library from here to upload resources and manage folders</li><li>While editing other content such as a page, import an image from the resource library by clicking the image tool then the folder tool.</li><li>While editing other content, create a download from the resource library by clicking the download tool.</li><li>While editing other content, create a link to resource by highlighting text and clicking the link tool, then the folder icon.</li><li>The Resource Library can be dropped on any public page to create a public file sharing repository.</li></ul><p>Folder access and permissions</p><ul>
+			<li>Administrators have full access to edit files and folders, upload and delete files, and create and delete folders.</li><li>When using the resource library to provide resources for the wysiwyg editor, content managers can access and use all resource library files and folders.</li><li>Content managers can be given permission to upload or delete files, and add or delete folders within a specified folder. These permissions are controlled with group access through the folder record.</li></ul>]]></Help>
 		<HelpLink></HelpLink>
 		<Icon Link="" width="0" height="0" sprites="0" />
 		<InIframe>No</InIframe>
-		<BlockEditTools>No</BlockEditTools>
+		<BlockEditTools>yes</BlockEditTools>
 		<FormXML></FormXML>
 		<IsInline>No</IsInline>
 		<JavascriptInHead></JavascriptInHead>
@@ -47,37 +47,37 @@ Block Folder Navigation=No[Yes|No]
 		<PageTitle></PageTitle>
 		<RemoteAssetLink></RemoteAssetLink>
 		<Styles><![CDATA[.ccLibrary {}
-.ccLibrary td.rlnav { 
-	padding:10px; 
-	vertical-align:top;
-	background-color:white;
-	width:140px;
-	text-align:left;
-}
-.ccLibrary td.navBorder { 
-	padding:0;
-	vertical-align:top;
-	background-color:
-	white;width:5px;
-}
-.ccLibrary td.content { 
-	padding:0;
-	background-color:white;
-	width:100%;
-	vertical-align:top;
-	text-align:left; 
-}
-.ccLibrary td.content tr.listRow td { 
-	vertical-align:middle;
-	padding: 2px 2px 2px 2px;
-	text-align:left;
-	border-top: 1px solid #C0C0C0; 
-}
-.ccLibrary td.content tr.listRow td { vertical-align:middle; }
-.ccLibrary td.content tr.listRow td.left { }
-.ccLibrary td.content tr.listRow td.center { text-align:center; }
-.ccLibrary td.content tr.listRow td.right { text-align:right; }
-]]></Styles>
+			.ccLibrary td.rlnav { 
+				padding:10px; 
+				vertical-align:top;
+				background-color:white;
+				width:140px;
+				text-align:left;
+			}
+			.ccLibrary td.navBorder { 
+				padding:0;
+				vertical-align:top;
+				background-color:
+				white;width:5px;
+			}
+			.ccLibrary td.content { 
+				padding:0;
+				background-color:white;
+				width:100%;
+				vertical-align:top;
+				text-align:left; 
+			}
+			.ccLibrary td.content tr.listRow td { 
+				vertical-align:middle;
+				padding: 2px 2px 2px 2px;
+				text-align:left;
+				border-top: 1px solid #C0C0C0; 
+			}
+			.ccLibrary td.content tr.listRow td { vertical-align:middle; }
+			.ccLibrary td.content tr.listRow td.left { }
+			.ccLibrary td.content tr.listRow td.center { text-align:center; }
+			.ccLibrary td.content tr.listRow td.right { text-align:right; }
+			]]></Styles>
 		<styleslinkhref><![CDATA[/resourcelibrary/mktree.css]]></styleslinkhref>
 		<Scripting Language="VBScript" EntryPoint="" Timeout="5000"/>
 	</Addon>
