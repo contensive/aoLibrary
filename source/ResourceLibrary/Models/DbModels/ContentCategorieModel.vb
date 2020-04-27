@@ -7,7 +7,7 @@ Imports System.Collections.Generic
 Imports System.Text
 Imports Contensive.BaseClasses
 
-Namespace Contensive.Addons.ResourceLibrary.Models     '<------ set namespace
+Namespace Models     '<------ set namespace
     Public Class ContentCategorieModel        '<------ set set model Name and everywhere that matches this string
         Inherits baseModel
         Implements ICloneable

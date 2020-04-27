@@ -3,7 +3,7 @@ Imports System
 Imports System.Drawing
 Imports Contensive.BaseClasses
 
-Namespace Contensive.Processor.Controllers
+Namespace Controllers
     Public Class ImageEditController
         Implements IDisposable
 

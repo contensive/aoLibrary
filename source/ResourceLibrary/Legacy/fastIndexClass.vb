@@ -3,7 +3,7 @@ Option Strict On
 
 Imports Contensive.BaseClasses
 
-Namespace Contensive.VbConversion
+Namespace Controllers
     Public Class FastIndexClass
         '
         ' New serializable And deserialize

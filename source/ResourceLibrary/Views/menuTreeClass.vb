@@ -6,19 +6,16 @@ Imports Contensive.Addons.ResourceLibrary.Controllers
 Imports Contensive.BaseClasses
 Imports Contensive.Addons.ResourceLibrary.Controllers.genericController
 Imports Contensive.Addons.ResourceLibrary.Models
-Imports Contensive.VbConversion
-Imports FastIndex5Class = Contensive.VbConversion.FastIndexClass
+Imports FastIndex5Class = Contensive.Addons.ResourceLibrary.Controllers.FastIndexClass
 
 Namespace Contensive.Addons.ResourceLibrary
     '
     Public Class menuTreeClass
         '
         Private cp As CPBaseClass
-        Private main As VbConversion.MainClass
 
         Friend Sub New(cp As CPBaseClass)
             Me.cp = cp
-            main = New MainClass(cp)
             EntryIndexName = New FastIndex5Class
             Randomize()
             MenuFlyoutNamePrefix = "id" & CStr(Int(9999 * Rnd()))

@@ -3,14 +3,7 @@ Option Strict On
 
 Imports Contensive.BaseClasses
 
-'Imports System.Collections.Generic
-'Imports System.Text
-'Imports Contensive.BaseClasses
-'Imports Contensive.Addons.ResourceLibrary
-'Imports AddonCollectionVb.Views
-'Imports AddonCollectionVb.Controllers
-
-Namespace Contensive.Addons.ResourceLibrary.Controllers
+Namespace Controllers
     Public NotInheritable Class genericController
         Private Sub New()
         End Sub

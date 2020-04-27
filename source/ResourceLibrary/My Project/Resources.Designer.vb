@@ -22,7 +22,7 @@ Namespace My.Resources
     '''<summary>
     '''  A strongly-typed resource class, for looking up localized strings, etc.
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
      Global.Microsoft.VisualBasic.HideModuleNameAttribute()>  _
@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("Contensive.Addons.ResourceLibrary.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -61,13 +61,17 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to select top 1 m.name as personName, o.organizationName 
-        '''from ccmembers m left join organizations o on o.id=m.organizationId
-        '''where o.id={0}.
+        '''  Looks up a localized string similar to &lt;div class=&quot;designBlockContainer blockOneColumn {{outerContainerClass}}&quot; style=&quot;{{styleHeight}}{{styleBackgroundImage}}&quot;&gt;
+        '''	&lt;div class=&quot;{{contentContainerClass}}&quot;&gt;
+        '''		&lt;div class=&quot;row&quot;&gt;
+        '''			&lt;div class=&quot;col-lg-12&quot;&gt;{{{addonCol1}}}&lt;/div&gt;
+        '''		&lt;/div&gt;
+        '''	&lt;/div&gt;
+        '''&lt;/div&gt;.
         '''</summary>
-        Friend ReadOnly Property sampleSql() As String
+        Friend ReadOnly Property LibraryLayout() As String
             Get
-                Return ResourceManager.GetString("sampleSql", resourceCulture)
+                Return ResourceManager.GetString("LibraryLayout", resourceCulture)
             End Get
         End Property
     End Module

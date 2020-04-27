@@ -4,7 +4,7 @@ Option Strict On
 
 Imports Contensive.BaseClasses
 
-Namespace Contensive.Addons.ResourceLibrary.Controllers
+Namespace Controllers
     '
     '====================================================================================================
     ''' <summary>
@@ -16,7 +16,13 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
         '
         ' privates passed in, do not dispose
         '
-        Private cp As Contensive.BaseClasses.CPBaseClass
+        Private cp As CPBaseClass
+        '
+        Public ReadOnly Property allowPlace As Boolean
+        '
+        Public ReadOnly Property topFolderPath As String
+        '
+        Public ReadOnly Property AllowGroupAdd As Boolean
         '
         '====================================================================================================
         ''' <summary>
@@ -66,18 +72,32 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
         ''' Constructor
         ''' </summary>
         ''' <remarks></remarks>
-        Public Sub New(cp As Contensive.BaseClasses.CPBaseClass, Optional requiresAuthentication As Boolean = True)
+        Public Sub New(cp As CPBaseClass)
             Me.cp = cp
-            Dim sql As String = ""
-            Dim cs As CPCSBaseClass = cp.CSNew()
-            Dim localSystemStatus As String = ""
-            If (requiresAuthentication And Not cp.User.IsAuthenticated) Then
-                packageErrorList.Add(New packageErrorClass() With {.number = resultErrorEnum.errAuthentication, .description = "Authorization is required."})
-                cp.Response.SetStatus(httpErrorEnum.forbidden & " Forbidden")
+            '
+            ' -- prepopulate request (lazy load later)
+            allowPlace = cp.Doc.GetBoolean("AllowSelectResource")
+            '
+            ' -- topFolder should be in this format toptier\tier2\tier2
+            ' -- all lowercase, no leading or trailing slashes, backslashs, remove 'root\'
+            topFolderPath = cp.Doc.GetText("RootFolderName")
+            topFolderPath = Trim(topFolderPath)
+            topFolderPath = LCase(topFolderPath)
+            topFolderPath = Replace(topFolderPath, "/", "\")
+            If Left(topFolderPath, 4) = "root" Then
+                topFolderPath = Mid(topFolderPath, 5)
             End If
+            If Left(topFolderPath, 1) = "\" Then
+                topFolderPath = Mid(topFolderPath, 2)
+            End If
+            If Right(topFolderPath, 1) = "\" Then
+                topFolderPath = Mid(topFolderPath, 1, Len(topFolderPath) - 1)
+            End If
+            '
+            AllowGroupAdd = cp.Doc.GetBoolean("AllowGroupAdd")
         End Sub
         '
-        Public Shared Function serializeObject(ByVal CP As Contensive.BaseClasses.CPBaseClass, ByVal dataObject As Object) As String
+        Public Shared Function serializeObject(ByVal CP As CPBaseClass, ByVal dataObject As Object) As String
             Dim result As String = ""
             Try
                 Dim json_serializer As New System.Web.Script.Serialization.JavaScriptSerializer
@@ -94,7 +114,7 @@ Namespace Contensive.Addons.ResourceLibrary.Controllers
         ''' </summary>
         Public Class packageProfileClass
             Public name As String
-            Public time as integer
+            Public time As Integer
         End Class
         '
         '====================================================================================================

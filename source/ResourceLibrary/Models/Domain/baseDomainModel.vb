@@ -8,8 +8,8 @@ Imports System.Text
 Imports Contensive.BaseClasses
 Imports System.Reflection
 
-Namespace Contensive.Addons.ResourceLibrary.Models.Complex
-    Public MustInherit Class baseComplexModel
+Namespace Models.Domain
+    Public MustInherit Class BaseDomainModel
         '
         '====================================================================================================
         ''' <summary>
@@ -17,7 +17,7 @@ Namespace Contensive.Addons.ResourceLibrary.Models.Complex
         ''' </summary>
         ''' <param name="cp"></param>
         ''' <param name="cs"></param>
-        Private Shared Function loadRecord(Of T As baseComplexModel)(cp As CPBaseClass, cs As CPCSBaseClass) As T
+        Private Shared Function loadRecord(Of T As BaseDomainModel)(cp As CPBaseClass, cs As CPCSBaseClass) As T
             Dim instance As T = Nothing
             Try
                 If cs.OK() Then
@@ -61,7 +61,7 @@ Namespace Contensive.Addons.ResourceLibrary.Models.Complex
         ''' <summary>
         ''' pattern get a list of objects from this model
         ''' </summary>
-        Protected Shared Function createListFromSql(Of T As baseComplexModel)(cp As CPBaseClass, sql As String, pageSize As Integer, pageNumber As Integer) As List(Of T)
+        Protected Shared Function createListFromSql(Of T As BaseDomainModel)(cp As CPBaseClass, sql As String, pageSize As Integer, pageNumber As Integer) As List(Of T)
             Dim result As New List(Of T)
             Try
                 Dim cs As CPCSBaseClass = cp.CSNew()
