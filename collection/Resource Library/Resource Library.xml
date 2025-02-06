@@ -7,14 +7,7 @@
 		<CopyText></CopyText>
 		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.ResourceLibrary.Views.libraryClass]]></DotNetClass>
-		<ArgumentList><![CDATA[
-			RootFolderName
-			AllowGroupAdd=Yes[Yes|No]
-			AllowSelectResource=No[Yes|No]
-			SelectResourceEditorObjectName
-			SelectLinkObjectName
-			Block Folder Navigation=No[Yes|No]
-			]]></ArgumentList>
+		<ArgumentList> </ArgumentList>
 		<AsAjax>No</AsAjax>
 		<Filter>No</Filter>
 		<Help><![CDATA[<p>The resource library is a convenient place to store files used through the site. It can be accessed several ways:</p><ul>

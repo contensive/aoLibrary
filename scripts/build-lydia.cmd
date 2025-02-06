@@ -1,7 +1,8 @@
 
 rem all paths are relative to the git scripts folder
 
-call Env.cmd
+set appName=lydiakidwell
+
 
 call build.cmd
 
