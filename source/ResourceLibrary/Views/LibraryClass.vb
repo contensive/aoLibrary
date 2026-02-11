@@ -45,7 +45,8 @@ Namespace Views
                 ' -- translate the Db model to a view model and mustache it into the layout
                 Dim viewModel = LibraryViewModel.create(CP, settings, htmlBody)
                 If (viewModel Is Nothing) Then Throw New ApplicationException("Could not create design block view model.")
-                Return CP.Mustache.Render(My.Resources.LibraryLayout, viewModel)
+                Return Nustache.Core.Render.StringToString(My.Resources.LibraryLayout, viewModel)
+                'Return CP.Mustache.Render(My.Resources.LibraryLayout, viewModel)
                 '
                 ' -- if editing enabled, add the link and wrapperwrapper
                 'Return CP.Content.GetEditWrapper(result, settings.name, settings.id)

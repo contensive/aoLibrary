@@ -519,7 +519,8 @@ Namespace Views
                                                 FilenameNoExtension = Left(uploadFilename, Pos - 1)
                                             End If
                                             Dim cdnPathFilename As String = cp.Db.CreateUploadFieldPathFilename(LibraryFileModel.tableMetadata.tableNameLower, "filename", libraryFile.id, uploadFilename, CPContentBaseClass.FieldTypeIdEnum.File)
-                                            Dim cdnPath As String = cp.CdnFiles.GetPath(cdnPathFilename) '  Replace(VirtualFilePathPage, imageFilename, "")
+                                            Dim cdnPath As String = Replace(cdnPathFilename, uploadFilename, "")
+                                            ' Dim cdnPath As String = cp.CdnFiles.GetPath(cdnPathFilename)
                                             libraryFile.description = libraryDescription
                                             libraryFile.folderId = currentFolderID
                                             cp.Html.ProcessInputFile(imageRequestName, cdnPath)
