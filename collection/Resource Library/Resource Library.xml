@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<Collection name="Resource Library" guid="{f36c7051-f382-4558-8dbf-091f74c26c83}" system="No" updatable="Yes" blockNavigatorNode="No">
+<Collection name="Resource Library" guid="{f36c7051-f382-4558-8dbf-091f74c26c83}" system="No" updatable="Yes" blockNavigatorNode="No"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://contensive.s3.amazonaws.com/xsd/Collection.xsd"
+>
 	<HelpLink>http://support.contensive.com/Resource-Library</HelpLink>
 	<Help></Help>
 	<Addon name="Resource Library" guid="{564EF3F5-9673-4212-A692-0942DD51FF1A}" type="Tool">
