@@ -8,7 +8,6 @@
 	<Addon name="Resource Library" guid="{564EF3F5-9673-4212-A692-0942DD51FF1A}" type="Tool">
 		<Copy></Copy>
 		<CopyText></CopyText>
-		<ActiveXProgramID></ActiveXProgramID>
 		<DotNetClass><![CDATA[Contensive.Addons.ResourceLibrary.Views.libraryClass]]></DotNetClass>
 		<ArgumentList> </ArgumentList>
 		<AsAjax>No</AsAjax>
@@ -146,84 +145,6 @@
 		</Field>
 	</CDef>
 
-	<Resource name="bullet.gif" type="www" path="resourcelibrary" />
-	<Resource name="bulletround.gif" type="www" path="resourcelibrary" />
-	<Resource name="bulletround2.gif" type="www" path="resourcelibrary" />
-	<Resource name="bulletsquare.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconaudio.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconaudiodownload.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconaudiomedia.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconcontentadd.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconcontentedit.gif" type="www" path="resourcelibrary" />
-	<Resource name="icondefault.gif" type="www" path="resourcelibrary" />
-	<Resource name="icondefaultdownload.gif" type="www" path="resourcelibrary" />
-	<Resource name="icondefaultmedia.gif" type="www" path="resourcelibrary" />
-	<Resource name="icondownload.gif" type="www" path="resourcelibrary" />
-	<Resource name="icondownload2.gif" type="www" path="resourcelibrary" />
-	<Resource name="icondownload3.gif" type="www" path="resourcelibrary" />
-	<Resource name="icondownload_old.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconedgeclose.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconedgeopen.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconedit.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconemail.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconemailpage2.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconfile.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconfileadd.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconfileedit.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconflash.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconflashdownload.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconfolderadd.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconfolderadd2.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconfolderclosed.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconfolderedit.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconfolderopen.gif" type="www" path="resourcelibrary" />
-	<Resource name="icongif.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconhelp.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconhtml.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconhtmlviewer.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconimage.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconimage2.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconimage2download.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconimage2media.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconimageplace.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconimageplace2322.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconimagesettings.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconimage_old.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconinstanceedit.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconjpeg.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconpage1818.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconpagebroken1818.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconpdf.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconpdfdownload.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconppt.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconpptdownload.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconpreview.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconprint.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconprintversion2.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconsitestylesedit.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconsmallcomment.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconsmallemail.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconsmallprinter.gif" type="www" path="resourcelibrary" />
-	<Resource name="icontext.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconupload.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconvideo.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconvideo2322.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconvideodownload.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconvideomedia.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconview.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconword.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconworddoc.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconworddownload.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconxls.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconxlsdownload.gif" type="www" path="resourcelibrary" />
-	<Resource name="iconxml-25x13.gif" type="www" path="resourcelibrary" />
-	<Resource name="resourcelink1616.gif" type="www" path="resourcelibrary" />
-	<Resource name="spacer.gif" type="www" path="resourcelibrary" />
-	<Resource name="mktree.js" type="www" path="resourcelibrary" />
-	<Resource name="mktree.css" type="www" path="resourcelibrary" />
-	<Resource name="box.gif" type="www" path="resourcelibrary" />
-	<Resource name="minus.gif" type="www" path="resourcelibrary" />
-	<Resource name="plus.gif" type="www" path="resourcelibrary" />
-	<Resource name="pointer.gif" type="www" path="resourcelibrary" />
+	<Resource name="wwwFiles" type="wwwFiles" />
 	<Resource name="LibraryConfig.xml" type="content" path="resourcelibrary" />
 </Collection>
