@@ -22,6 +22,7 @@ namespace Contensive.Addons.ResourceLibrary.Views {
         public Controllers.FastIndexClass FolderPathIndex = new Controllers.FastIndexClass();
         //
         public string FolderSelect;
+        public bool hasModifyAccess;
         //
         // -----------------------------------------------------------------------------------
         // ----- Publics
@@ -133,7 +134,7 @@ namespace Contensive.Addons.ResourceLibrary.Views {
         //   Aggregate Object Interface
         //=================================================================================
         //
-        public string getResourceLibrary(CPBaseClass cp) {
+        public string getResourceLibrary(CPBaseClass cp, bool useLayoutBuilder = false) {
             try {
                 using (applicationController ae = new applicationController(cp)) {
                     //
@@ -141,7 +142,7 @@ namespace Contensive.Addons.ResourceLibrary.Views {
                     SelectLinkObjectName = cp.Doc.GetText("SelectLinkObjectName");
                     blockFolderNavigation = cp.Utils.EncodeBoolean(cp.Doc.GetBoolean("Block Folder Navigation"));
                     //
-                    return GetForm(cp, ae);
+                    return GetForm(cp, ae, useLayoutBuilder);
                 }
             } catch (Exception ex) {
                 cp.Site.ErrorReport(ex);
@@ -155,7 +156,7 @@ namespace Contensive.Addons.ResourceLibrary.Views {
         //   This HTML does not include the HTML, HEAD or BODY tags.
         //=================================================================================
         //
-        private string GetForm(CPBaseClass cp, applicationController ae) {
+        private string GetForm(CPBaseClass cp, applicationController ae, bool useLayoutBuilder = false) {
             string result = "";
             try {
                 const string LibraryFileTypespathFilename = "resourcelibrary\\LibraryConfig.xml";
@@ -247,6 +248,7 @@ namespace Contensive.Addons.ResourceLibrary.Views {
                             currentFolderHasModifyAccess = folders[currentFolderPtr].hasModifyAccess;
                         }
                     }
+                    hasModifyAccess = currentFolderHasModifyAccess;
                     //topFolderID = GetFolderID(topFolderPath)
                     //
                     // Load IconFiles
@@ -276,34 +278,34 @@ namespace Contensive.Addons.ResourceLibrary.Views {
                                         foreach (XmlElement typeNode in baseNode.ChildNodes) {
                                             switch (typeNode.Name.ToLower()) {
                                                 case "name":
-                                                    newFileType.Name = typeNode.Value;
+                                                    newFileType.Name = typeNode.InnerText;
                                                     break;
                                                 case "filetypeid":
-                                                    newFileType.FileTypeID = cp.Utils.EncodeInteger(typeNode.Value);
+                                                    newFileType.FileTypeID = cp.Utils.EncodeInteger(typeNode.InnerText);
                                                     break;
                                                 case "extensionlist":
-                                                    newFileType.ExtensionList = typeNode.Value;
+                                                    newFileType.ExtensionList = typeNode.InnerText;
                                                     break;
                                                 case "isdownload":
-                                                    newFileType.IsDownload = cp.Utils.EncodeBoolean(typeNode.Value);
+                                                    newFileType.IsDownload = cp.Utils.EncodeBoolean(typeNode.InnerText);
                                                     break;
                                                 case "isimage":
-                                                    newFileType.IsImage = cp.Utils.EncodeBoolean(typeNode.Value);
+                                                    newFileType.IsImage = cp.Utils.EncodeBoolean(typeNode.InnerText);
                                                     break;
                                                 case "isvideo":
-                                                    newFileType.IsVideo = cp.Utils.EncodeBoolean(typeNode.Value);
+                                                    newFileType.IsVideo = cp.Utils.EncodeBoolean(typeNode.InnerText);
                                                     break;
                                                 case "isflash":
-                                                    newFileType.IsFlash = cp.Utils.EncodeBoolean(typeNode.Value);
+                                                    newFileType.IsFlash = cp.Utils.EncodeBoolean(typeNode.InnerText);
                                                     break;
                                                 case "iconlink":
-                                                    newFileType.IconFilename = typeNode.Value;
+                                                    newFileType.IconFilename = typeNode.InnerText;
                                                     break;
                                                 case "mediaiconlink":
-                                                    newFileType.MediaIconFilename = typeNode.Value;
+                                                    newFileType.MediaIconFilename = typeNode.InnerText;
                                                     break;
                                                 case "downloadiconlink":
-                                                    newFileType.DownloadIconFilename = typeNode.Value;
+                                                    newFileType.DownloadIconFilename = typeNode.InnerText;
                                                     break;
                                             }
                                         }
@@ -584,31 +586,31 @@ namespace Contensive.Addons.ResourceLibrary.Views {
                     //
                     // ----- Begin output
                     //
-                    string rnbutton = "Button";
-                    string ButtonExit;
-                    if ((SourceMode == SourceModeFromDownloadRequest) || (SourceMode == SourceModeFromLinkDialog)) {
-                        ButtonExit = cp.Html.Button(rnbutton, ButtonClose, "", "windowcloseID");
-                    } else {
-                        ButtonExit = cp.Html.Button(rnbutton, ButtonCancel);
-                    }
                     string ButtonBar = "";
-                    if (AllowLocalFileAdd) {
-                        if (currentFolderHasModifyAccess) {
-                            ButtonBar = "<div class=ccAdminButtonBar>"
-                                    + ButtonExit
-                                    + cp.Html.Button(rnbutton, ButtonApply)
-                                    + cp.Html.Button(rnbutton, ButtonDelete, RequestNameButton, "returnDeleteCheckID")
-                                    + "</div>";
+                    if (!useLayoutBuilder) {
+                        string rnbutton = "Button";
+                        string ButtonExit;
+                        if ((SourceMode == SourceModeFromDownloadRequest) || (SourceMode == SourceModeFromLinkDialog)) {
+                            ButtonExit = cp.Html.Button(rnbutton, ButtonClose, "", "windowcloseID");
                         } else {
-                            ButtonBar = "<div class=ccAdminButtonBar>"
-                                    + ButtonExit
-                                    + cp.Html.Button(rnbutton, ButtonApply)
-                                    + "</div>";
+                            ButtonExit = cp.Html.Button(rnbutton, ButtonCancel);
                         }
+                        if (AllowLocalFileAdd) {
+                            if (currentFolderHasModifyAccess) {
+                                ButtonBar = "<div class=ccAdminButtonBar>"
+                                        + ButtonExit
+                                        + cp.Html.Button(rnbutton, ButtonApply)
+                                        + cp.Html.Button(rnbutton, ButtonDelete, RequestNameButton, "returnDeleteCheckID")
+                                        + "</div>";
+                            } else {
+                                ButtonBar = "<div class=ccAdminButtonBar>"
+                                        + ButtonExit
+                                        + cp.Html.Button(rnbutton, ButtonApply)
+                                        + "</div>";
+                            }
+                        }
+                        result += ButtonBar;
                     }
-
-                    //result +=  genericController.htmlHidden("FolderID", currentFolderID)
-                    result += ButtonBar;
 
                     string JumpSelect = "";
                     JumpSelect = GetJumpFolderPathSelect(cp, currentFolderID, ae.topFolderPath);
@@ -757,7 +759,7 @@ namespace Contensive.Addons.ResourceLibrary.Views {
                             int fileSize = file.fileSize;
                             AltSizeList = file.altSizeList;
                             //
-                            string ImageSrc = cp.Site.FilePath + Filename.Replace("\\", "/");
+                            string ImageSrc = cp.Site.FilePath + (Filename ?? "").Replace("\\", "/");
                             //
                             int DotPosition = (ImageSrc.LastIndexOf(".") + 1);
                             if (DotPosition == 0) {
@@ -901,9 +903,13 @@ namespace Contensive.Addons.ResourceLibrary.Views {
                     }
                     result += $"<td class=\"content\">{FormDetails}</td>";
                     result += "</tr></Table>";
-                    result += ButtonBar;
+                    if (!useLayoutBuilder) {
+                        result += ButtonBar;
+                    }
                     result += htmlHidden("RowCount", RowCount);
-                    result = cp.Html.Form(result);
+                    if (!useLayoutBuilder) {
+                        result = cp.Html.Form(result);
+                    }
                 }
                 //
                 // moved to layout -- result = "<div class=\"ccLibrary\">" & result & "</div>"
@@ -1437,7 +1443,7 @@ namespace Contensive.Addons.ResourceLibrary.Views {
                         result = $"Folder <a href=?{RefreshQS}&FolderID=0>{folderName}</a>";
                     }
                 } else {
-                    Models.Db.LibraryFolderModel LibraryFolder = DbBaseModel.create<Models.Db.LibraryFolderModel>(cp, $"ID={FolderID}");
+                    Models.Db.LibraryFolderModel LibraryFolder = DbBaseModel.create<Models.Db.LibraryFolderModel>(cp, FolderID);
                     int ParentID = 0;
                     bool RecordFound = false;
                     if (!(LibraryFolder == null)) {
@@ -1523,7 +1529,7 @@ namespace Contensive.Addons.ResourceLibrary.Views {
                     while ((Ptr >= 0)) {
                         if (folders[Ptr].hasViewAccess && ((!RequireModifyAccess) || folders[Ptr].hasModifyAccess)) {
                             int PtrFolderID = folders[Ptr].FolderID;
-                            pathCaption = folders[Ptr].FullPath.Replace(pathRemoveString, "");
+                            pathCaption = string.IsNullOrEmpty(pathRemoveString) ? folders[Ptr].FullPath : folders[Ptr].FullPath.Replace(pathRemoveString, "");
 
                             if (PtrFolderID == topFolderPathID) {
                                 result = result + $"<option value={PtrFolderID} selected>{pathCaption}</option>";
@@ -2075,6 +2081,7 @@ namespace Contensive.Addons.ResourceLibrary.Views {
         //
         private int GetFileTypeID(CPBaseClass cp, string Filename) {
             int result = 0;
+            if (string.IsNullOrEmpty(Filename)) { return result; }
             //
             string[] FileNameSplit;
             string FileExtension;
@@ -2093,12 +2100,12 @@ namespace Contensive.Addons.ResourceLibrary.Views {
             result = DefaultFileTypeID;
             foreach (FileTypeModel iconFile in iconFiles) {
                 hint = "2";
-                if ((("," + iconFile.ExtensionList + ",").IndexOf("," + FileExtension + ",", StringComparison.OrdinalIgnoreCase) + 1) != 0) {
+                if (!string.IsNullOrEmpty(iconFile.ExtensionList) && (("," + iconFile.ExtensionList + ",").IndexOf("," + FileExtension + ",", StringComparison.OrdinalIgnoreCase) + 1) != 0) {
                     hint = "3";
                     result = iconFile.FileTypeID;
                     break;
                 }
-                if (iconFile.Name.ToLower() == "default") {
+                if (!string.IsNullOrEmpty(iconFile.Name) && iconFile.Name.Equals("default", StringComparison.OrdinalIgnoreCase)) {
                     hint = "4";
                     DefaultFileTypeID = iconFile.FileTypeID;
                 }

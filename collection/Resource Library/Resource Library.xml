@@ -5,6 +5,7 @@
 >
 	<HelpLink>http://support.contensive.com/Resource-Library</HelpLink>
 	<Help></Help>
+	<ImportCollection name="Content Portal">{1bf746b1-0a57-40d1-a2b7-53a0bcf6941e}</ImportCollection>
 	<Addon name="Resource Library" guid="{564EF3F5-9673-4212-A692-0942DD51FF1A}" type="Tool">
 		<Copy></Copy>
 		<CopyText></CopyText>
@@ -27,8 +28,8 @@
 		<!-- deprecated --><JSBodyScriptSrc></JSBodyScriptSrc>
 		<!-- deprecated --><JavascriptBodyEnd></JavascriptBodyEnd>
 		<!-- deprecated --><JavascriptOnLoad></JavascriptOnLoad>
-		<Content>Yes</Content>
-		<Template>Yes</Template>
+		<Content>No</Content>
+		<Template>No</Template>
 		<Email>No</Email>
 		<Admin>Yes</Admin>
 		<OnPageEndEvent>No</OnPageEndEvent>
@@ -145,6 +146,18 @@
 		</Field>
 	</CDef>
 
-	<Resource name="wwwFiles" type="wwwFiles" />
+	<data>
+		<!-- content portal created in base {3fdd7c5c-68a5-435f-ba62-a3e4cb0ee61e} -->
+
+		<Record Content="Portal Features" Guid="{56c6f2e7-aaa9-49fa-b53d-fb6dfa0a2228}" Name="Resource Library">
+			<field Name="sortorder"><![CDATA[Resource Library]]></field>
+			<field Name="portalid">{3fdd7c5c-68a5-435f-ba62-a3e4cb0ee61e}</field>
+			<field Name="addonid">{564EF3F5-9673-4212-A692-0942DD51FF1A}</field>
+			<field Name="parentfeatureid">{60D588B7-AF8C-4CEB-80DA-20CACD1C0AD5}</field>
+			<field Name="datacontentid"></field>
+		</Record>
+	</data>
+
+	<Resource name="wwwFiles.zip" type="wwwFiles" path="" />
 	<Resource name="LibraryConfig.xml" type="content" path="resourcelibrary" />
 </Collection>

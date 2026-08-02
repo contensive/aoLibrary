@@ -2,6 +2,7 @@
 using Contensive.Addons.ResourceLibrary.Controllers;
 using Contensive.Addons.ResourceLibrary.Models.View;
 using Contensive.BaseClasses;
+using static Contensive.Addons.ResourceLibrary.constants;
 
 namespace Contensive.Addons.ResourceLibrary.Views {
     //
@@ -16,36 +17,46 @@ namespace Contensive.Addons.ResourceLibrary.Views {
         public override object Execute(CPBaseClass CP) {
             const string designBlockName = "Resource Library";
             try {
-                Models.Db.ResourceLibraryModel settings;
                 if (CP.Doc.IsAdminSite) {
                     //
-                    // -- admin site settings
-                    settings = new Models.Db.ResourceLibraryModel() {
-                        RootFolderName = "",
-                        BlockFolderNavigation = false
-                    };
-                } else {
+                    // -- admin site, wrap in LayoutBuilder for portal styling
+                    var legacyLibrary = new LegacyLibraryClass();
+                    var htmlBody = legacyLibrary.getResourceLibrary(CP, useLayoutBuilder: true);
                     //
-                    // -- design block settings
-                    string userErrorMessage = "";
-                    var settingsGuid = InstanceIdController.getSettingsGuid(CP, designBlockName, ref userErrorMessage);
-                    if (string.IsNullOrEmpty(settingsGuid)) {
-                        return userErrorMessage;
+                    var form = CP.AdminUI.CreateLayoutBuilder();
+                    form.title = designBlockName;
+                    form.description = "Manage files and folders used throughout the site.";
+                    form.isOuterContainer = true;
+                    form.body = htmlBody;
+                    //
+                    // -- add buttons matching the legacy button bar
+                    form.addFormButton(ButtonCancel);
+                    form.addFormButton(ButtonApply);
+                    if (legacyLibrary.hasModifyAccess) {
+                        form.addFormButton(ButtonDelete);
                     }
-                    //
-                    // -- locate or create a data record for this guid
-                    settings = Models.Db.ResourceLibraryModel.createOrAddSettings(CP, settingsGuid);
-                    if (settings == null) {
-                        throw new System.ApplicationException("Could not create the design block settings record.");
-                    }
-                    //
-                    CP.Doc.SetProperty("RootFolderName", settings.RootFolderName);
-                    CP.Doc.SetProperty("Block Folder Navigation", settings.BlockFolderNavigation);
+                    return form.getHtml();
                 }
-                var htmlBody = (new LegacyLibraryClass()).getResourceLibrary(CP);
+                //
+                // -- public site design block settings
+                string userErrorMessage = "";
+                var settingsGuid = InstanceIdController.getSettingsGuid(CP, designBlockName, ref userErrorMessage);
+                if (string.IsNullOrEmpty(settingsGuid)) {
+                    return userErrorMessage;
+                }
+                //
+                // -- locate or create a data record for this guid
+                var publicSettings = Models.Db.ResourceLibraryModel.createOrAddSettings(CP, settingsGuid);
+                if (publicSettings == null) {
+                    throw new System.ApplicationException("Could not create the design block settings record.");
+                }
+                //
+                CP.Doc.SetProperty("RootFolderName", publicSettings.RootFolderName);
+                CP.Doc.SetProperty("Block Folder Navigation", publicSettings.BlockFolderNavigation);
+                var publicHtmlBody = (new LegacyLibraryClass()).getResourceLibrary(CP);
                 //
                 // -- translate the Db model to a view model and mustache it into the layout
-                var viewModel = LibraryViewModel.create(CP, settings, htmlBody);
+                var viewModel = LibraryViewModel.create(CP, publicSettings, publicHtmlBody);
                 if (viewModel == null) {
                     throw new System.ApplicationException("Could not create design block view model.");
                 }

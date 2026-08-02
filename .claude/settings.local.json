@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nuget list:*)",
+      "Bash(dotnet list:*)",
+      "Bash(echo:*)",
+      "Bash(dotnet build:*)",
+      "Bash(unzip:*)"
+    ]
+  }
+}

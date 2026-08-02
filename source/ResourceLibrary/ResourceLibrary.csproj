@@ -12,8 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Contensive.CPBaseClass" Version="26.3.10.15" />
-    <PackageReference Include="Contensive.DbModels" Version="26.3.10.15" />
+    <PackageReference Include="Contensive.CPBaseClass" Version="26.6.23.17814" />
+    <PackageReference Include="Contensive.DbModels" Version="26.6.23.17814" />
     <PackageReference Include="Nustache" Version="1.16.0.10" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.3" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
